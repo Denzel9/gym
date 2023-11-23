@@ -5,9 +5,10 @@ module.exports = {
     extend: {
       colors: {
         base: '#383737',
+        gold: '#e8aa00',
       },
       backgroundImage: {
-        training: "url('../training.jpg')",
+        training: "url('../public/training.jpg')",
       },
     },
   },

@@ -18,7 +18,7 @@ const TrainingBox: FunctionComponent<{ title: string }> = ({ title }) => {
   const currentStep = steps?.slice(-1).join('')
 
   return (
-    <div className=" w-full p-2 bg-gold rounded-xl ">
+    <div className=" w-full p-2 bg-gold rounded-xl mt-10">
       <div className=" flex items-center justify-between">
         <h2 className=" text-xl">{title}</h2>
         {start ? (

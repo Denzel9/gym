@@ -1,34 +1,48 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useRef } from 'react'
 import { getMonth } from '../../../helpers/getMonth'
 import StartBtn from './StartBtn'
 
 import { MdArrowForwardIos } from 'react-icons/md'
 import TrainingBox from './training-box/TrainingBox'
-import { useAppDispatch } from '../../../hooks/useAppDispatch'
-import { createExercise } from '../../../redux/currentTraining'
+// import { useAppDispatch } from '../../../hooks/useAppDispatch'
+// import { createExercise } from '../../../redux/currentTraining'
 
 const TrainingPage: FunctionComponent = () => {
   const date = `${new Date().getDate()}  ${getMonth(new Date().getUTCMonth())}`
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
+  const ref = useRef<HTMLDivElement | null>(null)
   return (
-    <section>
+    <section className=" ">
       <h1 className=" text-5xl">Сегодня</h1>
       <p className=" text-3xl">{date}</p>
-      <div className=" mt-32">
+      <div className=" mt-24 ">
         <p className=" text-2xl">Тренировка груди, плеч, бицепса и трицепса</p>
-        <button className=" bg-base px-4 py-2 rounded-xl flex items-center gap-2">
+        <button
+          onClick={() =>
+            ref?.current?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+              inline: 'center',
+            })
+          }
+          className=" bg-base px-4 py-2 rounded-xl flex items-center gap-2"
+        >
           <span>К упражнениям</span> <MdArrowForwardIos className=" mt-1 text-lg" />
         </button>
       </div>
-      <button
+      {/* <button
         onClick={() => {
           dispatch(createExercise('Бицепс'))
         }}
       >
         Начать
-      </button>
+      </button> */}
       <StartBtn />
-      <TrainingBox title="Бицепс" />
+      <div ref={ref} className=" my-[500px] ">
+        <TrainingBox title="Бицепс" />
+        <TrainingBox title="Бицепс" />
+        <TrainingBox title="Бицепс" />
+      </div>
     </section>
   )
 }

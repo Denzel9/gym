@@ -32,11 +32,31 @@ const TrainingBox: FunctionComponent<{ title: string }> = ({ title }) => {
       {start && (
         <div>
           <div className=" bg-base h-10 grid grid-cols-5 rounded-xl overflow-hidden">
-            <BoxItem step={1} disabled={false} currentStep={currentStep!} />
-            <BoxItem step={2} disabled={!isAvailableBox(1)!} currentStep={currentStep!} />
-            <BoxItem step={3} disabled={!isAvailableBox(2)!} currentStep={currentStep!} />
-            <BoxItem step={4} disabled={!isAvailableBox(3)!} currentStep={currentStep!} />
-            <BoxItem step={5} disabled={!isAvailableBox(4)!} currentStep={currentStep!} />
+            <BoxItem step={1} disabled={false} currentStep={currentStep!} title={title} />
+            <BoxItem
+              step={2}
+              disabled={!isAvailableBox(1)!}
+              currentStep={currentStep!}
+              title={title}
+            />
+            <BoxItem
+              step={3}
+              disabled={!isAvailableBox(2)!}
+              currentStep={currentStep!}
+              title={title}
+            />
+            <BoxItem
+              step={4}
+              disabled={!isAvailableBox(3)!}
+              currentStep={currentStep!}
+              title={title}
+            />
+            <BoxItem
+              step={5}
+              disabled={!isAvailableBox(4)!}
+              currentStep={currentStep!}
+              title={title}
+            />
           </div>
           <p className="pt-2 text-xs mb-5">*oтметить кол-во выполненных</p>
           <button

@@ -4,28 +4,27 @@ import Modal from '../../../ui/Modal'
 import { saveExercise } from '../../../../redux/currentTraining'
 import { useAppDispatch } from '../../../../hooks/useAppDispatch'
 
-const BoxItem: FunctionComponent<{ step: number; disabled: boolean; currentStep: string }> = ({
-  step,
-  disabled,
-  currentStep,
-}) => {
+const BoxItem: FunctionComponent<{
+  step: number
+  disabled: boolean
+  currentStep: string
+  title: string
+}> = ({ step, disabled, currentStep, title }) => {
   const [modal, setModal] = useState(false)
   const [weight, setWeight] = useState(0)
-  const [done, setDone] = useState(false)
 
   const dispatch = useAppDispatch()
 
   const handleclick = () => {
-    setDone(!done)
     setModal(false)
-    dispatch(saveExercise({ repeat: 12, weight, field: 'Бицепс', step }))
+    dispatch(saveExercise({ repeat: 12, weight, field: title, step }))
   }
   return (
     <>
       <div
         onClick={(e) => (+e.currentTarget.textContent! === step ? setModal(true) : () => {})}
         className={classNames(
-          done && 'bg-green-800',
+          +currentStep === step && 'bg-green-800',
           !disabled ? ' bg-base pointer-events-auto ' : 'bg-lightGray',
           +currentStep + 1 === step && 'animate-pulse',
           ' p-1 flex items-center justify-center pointer-events-none '

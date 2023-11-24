@@ -14,11 +14,15 @@ export const currentTraining = createSlice({
   name: 'counter',
   initialState,
   reducers: {
-    createExercise: (state, { payload }) => {
+    addExercise: (state, { payload }) => {
       state.exercises = { ...state.exercises, [payload]: {} }
+    },
+    createExercise: (state, { payload }) => {
+      state.exercises = { ...state.exercises, ...payload }
     },
     saveExercise: (state, { payload }) => {
       state.exercises = {
+        ...state.exercises,
         [payload.field]: {
           ...state.exercises[payload.field],
           [payload.step]: {

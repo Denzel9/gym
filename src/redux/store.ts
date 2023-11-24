@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { mainSlice } from './reducer'
+import { currentTraining } from './currentTraining'
 
 export const store = configureStore({
-  reducer: mainSlice.reducer,
+  reducer: {
+    timer: mainSlice.reducer,
+    currentTraining: currentTraining.reducer,
+  },
 })
 
 export type RootState = ReturnType<typeof store.getState>

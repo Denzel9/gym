@@ -7,7 +7,7 @@ import { useAppDispatch } from '../hooks/useAppDispatch'
 import { incremented } from '../redux/reducer'
 
 const Timer: FunctionComponent<{ isBegining: boolean }> = ({ isBegining }) => {
-  const value = useAppSelector((state) => state.timer)
+  const value = useAppSelector((state) => state.timer.timer)
 
   const dispatch = useAppDispatch()
 

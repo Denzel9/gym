@@ -5,7 +5,7 @@ import Timer from '../Timer'
 import { useAppSelector } from '../../hooks/useAppSelector'
 
 const Layout: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
-  const isBegining = useAppSelector((state) => state.isBegining)
+  const isBegining = useAppSelector((state) => state.timer.isBegining)
   return (
     <div className=" bg-training h-screen bg-cover bg-center">
       <div className=" flex items-center justify-between p-5">

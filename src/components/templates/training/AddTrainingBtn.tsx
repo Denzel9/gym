@@ -8,12 +8,15 @@ const AddTrainingBtn: FunctionComponent<{ trainingList: string[] }> = ({ trainin
   const [modal, setModal] = useState(false)
   const [text, setText] = useState('')
 
+  const toLowerList = trainingList.map((el) => el.toLowerCase())
+
   const handleClick = () => {
-    if (!trainingList.includes(text)) {
+    if (!toLowerList.includes(text.toLowerCase())) {
       dispatch(addExercise(text))
       setModal(false)
-    } else console.log('err')
+    } else console.log('eer')
   }
+
   return (
     <>
       <button
@@ -23,7 +26,7 @@ const AddTrainingBtn: FunctionComponent<{ trainingList: string[] }> = ({ trainin
         Добавить упражнение
       </button>
       <Modal
-        title={'Добавить упражнение'}
+        title={'Новое упражнение'}
         modal={modal}
         setModal={setModal}
         isConfirmation={true}
@@ -32,10 +35,11 @@ const AddTrainingBtn: FunctionComponent<{ trainingList: string[] }> = ({ trainin
         noBtn="Отменить"
       >
         <input
-          className=" text-black"
+          className="w-full bg-transparent border-b border-gold outline-none my-5"
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
+          placeholder="Что делаем?"
         />
       </Modal>
     </>

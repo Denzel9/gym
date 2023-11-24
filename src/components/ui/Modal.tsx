@@ -26,7 +26,7 @@ const Modal: FunctionComponent<ModalProps> = ({
     <div
       className={classNames(
         modal ? 'bg-black bg-opacity-40' : 'bg-opacity-0 pointer-events-none ',
-        ' absolute z-20 h-full w-full top-0 left-0 flex items-center '
+        ' fixed z-20 h-full w-full top-0 left-0 flex items-center '
       )}
       onClick={() => setModal(false)}
     >

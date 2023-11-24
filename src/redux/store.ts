@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { mainSlice } from './reducer'
 import { currentTraining } from './currentTraining'
 
+
 export const store = configureStore({
   reducer: {
     timer: mainSlice.reducer,

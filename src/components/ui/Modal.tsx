@@ -41,11 +41,11 @@ const Modal: FunctionComponent<ModalProps> = ({
         {children}
         {isConfirmation && (
           <div className=" float-right flex gap-2">
-            <button onClick={() => yesBtnFn()} className=" bg-green-800 px-4 py-2 rounded-xl">
-              {yesBtn}
-            </button>
             <button onClick={() => setModal(false)} className=" bg-red-800 px-4 py-2 rounded-xl">
               {noBtn}
+            </button>
+            <button onClick={() => yesBtnFn()} className=" bg-green-800 px-4 py-2 rounded-xl">
+              {yesBtn}
             </button>
           </div>
         )}

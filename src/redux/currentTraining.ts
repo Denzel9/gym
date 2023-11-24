@@ -35,4 +35,4 @@ export const currentTraining = createSlice({
   },
 })
 
-export const { saveExercise, createExercise } = currentTraining.actions
+export const { saveExercise, createExercise, addExercise } = currentTraining.actions

@@ -21,7 +21,7 @@ const TrainingPage: FunctionComponent = () => {
           onClick={() =>
             ref?.current?.scrollIntoView({
               behavior: 'smooth',
-              block: 'start',
+              block: 'center',
               inline: 'center',
             })
           }

@@ -20,7 +20,7 @@ const AddTrainingBtn: FunctionComponent<{ trainingList: string[] }> = ({ trainin
   return (
     <>
       <button
-        className=" mb-[500px] mt-5 py-2 px-4 bg-base shadow-xl border border-gold rounded-xl"
+        className=" mb-32 mt-5 py-2 px-4 bg-base shadow-xl border border-gold rounded-xl"
         onClick={() => setModal(true)}
       >
         Добавить упражнение

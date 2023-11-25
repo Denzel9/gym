@@ -5,6 +5,7 @@ import { MdArrowForwardIos } from 'react-icons/md'
 import TrainingBox from './training-box/TrainingBox'
 import { useAppSelector } from '../../../hooks/useAppSelector'
 import AddTrainingBtn from './AddTrainingBtn'
+import classNames from 'classnames'
 
 const TrainingPage: FunctionComponent = () => {
   const date = `${new Date().getDate()}  ${getMonth(new Date().getUTCMonth())}`
@@ -27,7 +28,7 @@ const TrainingPage: FunctionComponent = () => {
 
   return (
     <section>
-      <div className=" h-5/6">
+      <div className={classNames(isBegining ? ' h-screen' : ' h-5/6')}>
         <h1 className=" text-5xl">Сегодня</h1>
         <p className=" text-3xl">{date}</p>
         <div className=" mt-24 ">

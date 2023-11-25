@@ -27,7 +27,7 @@ const TrainingPage: FunctionComponent = () => {
 
   return (
     <section>
-      <div className=" h-screen">
+      <div className=" h-[800px]">
         <h1 className=" text-5xl">Сегодня</h1>
         <p className=" text-3xl">{date}</p>
         <div className=" mt-24 ">

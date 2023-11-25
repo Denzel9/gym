@@ -23,8 +23,8 @@ export const currentTraining = createSlice({
     saveExercise: (state, { payload }) => {
       state.exercises = {
         ...state.exercises,
-        [payload.field]: {
-          ...state.exercises[payload.field],
+        [payload.title]: {
+          ...state.exercises[payload.title],
           [payload.step]: {
             repeat: payload.repeat,
             weight: payload.weight,
@@ -32,7 +32,10 @@ export const currentTraining = createSlice({
         },
       }
     },
+    deleteExercise: (state, { payload }) => {
+      delete state.exercises[payload]
+    },
   },
 })
 
-export const { saveExercise, createExercise, addExercise } = currentTraining.actions
+export const { saveExercise, createExercise, addExercise, deleteExercise } = currentTraining.actions

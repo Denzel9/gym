@@ -9,13 +9,17 @@ import { useAppDispatch } from '../../hooks/useAppDispatch'
 
 const Layout: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
   const isBegining = useAppSelector((state) => state.timer.isBegining)
+
   const training = 'Тренировка груди, плеч, бицепса и трицепса'
+
   const dispatch = useAppDispatch()
+
   useEffect(() => {
     if (training === 'Тренировка груди, плеч, бицепса и трицепса') {
       dispatch(createExercise(initTraning))
     }
   }, [dispatch, training])
+
   return (
     <div className=" bg-training h-screen bg-cover bg-center">
       <div className=" flex items-center justify-between p-5">

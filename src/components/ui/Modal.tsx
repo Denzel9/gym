@@ -32,7 +32,7 @@ const Modal: FunctionComponent<ModalProps> = ({
     >
       <div
         className={classNames(
-          modal ? ' translate-y-0' : ' translate-y-56',
+          modal ? ' translate-y-0' : ' translate-y-96',
           'duration-500 fixed bottom-0 left-0 right-0 bg-black px-5 py-10 '
         )}
         onClick={(e) => e.stopPropagation()}

@@ -3,28 +3,32 @@ import { FunctionComponent, useState } from 'react'
 import Modal from '../../../ui/Modal'
 import { saveExercise } from '../../../../redux/currentTraining'
 import { useAppDispatch } from '../../../../hooks/useAppDispatch'
+import ModalChildren from './modalChildren/ModalChildren'
 
 const BoxItem: FunctionComponent<{
   step: number
   disabled: boolean
   currentStep: string
   title: string
-}> = ({ step, disabled, currentStep, title }) => {
+  steps: string[]
+}> = ({ step, disabled, currentStep, title, steps }) => {
   const [modal, setModal] = useState(false)
   const [weight, setWeight] = useState(0)
+  const [repeat, setRepeat] = useState(0)
 
   const dispatch = useAppDispatch()
 
   const handleclick = () => {
     setModal(false)
-    dispatch(saveExercise({ repeat: 12, weight, field: title, step }))
+    dispatch(saveExercise({ repeat, weight, title, step }))
   }
+  const endedStep = steps.includes(String(step))
   return (
     <>
       <div
         onClick={(e) => (+e.currentTarget.textContent! === step ? setModal(true) : () => {})}
         className={classNames(
-          +currentStep === step && 'bg-green-800',
+          endedStep && 'bg-green-800',
           !disabled ? ' bg-base pointer-events-auto ' : 'bg-lightGray',
           +currentStep + 1 === step && 'animate-pulse',
           ' p-1 flex items-center justify-center pointer-events-none '
@@ -41,68 +45,12 @@ const BoxItem: FunctionComponent<{
         yesBtn="Сохранить"
         noBtn="Отменить"
       >
-        <div className=" bg-base h-10 grid grid-cols-6 rounded-xl overflow-hidden">
-          <button
-            className={classNames(
-              weight === 10 ? ' bg-green-800' : ' bg-base',
-              ' p-1 flex items-center justify-center'
-            )}
-            value={weight}
-            onClick={() => setWeight(10)}
-          >
-            10
-          </button>
-          <button
-            className={classNames(
-              weight === 12 ? ' bg-green-800' : ' bg-base',
-              ' p-1 flex items-center justify-center'
-            )}
-            value={weight}
-            onClick={() => setWeight(12)}
-          >
-            12
-          </button>
-          <button
-            className={classNames(
-              weight === 14 ? ' bg-green-800' : ' bg-base',
-              ' p-1 flex items-center justify-center'
-            )}
-            value={weight}
-            onClick={() => setWeight(14)}
-          >
-            14
-          </button>
-          <button
-            className={classNames(
-              weight === 16 ? ' bg-green-800' : ' bg-base',
-              ' p-1 flex items-center justify-center'
-            )}
-            value={weight}
-            onClick={() => setWeight(16)}
-          >
-            16
-          </button>
-          <button
-            className={classNames(
-              weight === 18 ? ' bg-green-800' : ' bg-base',
-              ' p-1 flex items-center justify-center'
-            )}
-            value={weight}
-            onClick={() => setWeight(18)}
-          >
-            18
-          </button>
-          <button
-            className={classNames(
-              weight === 20 ? ' bg-green-800' : ' bg-base',
-              ' p-1 flex items-center justify-center'
-            )}
-            value={weight}
-            onClick={() => setWeight(20)}
-          >
-            20
-          </button>
-        </div>
+        <ModalChildren
+          repeat={weight}
+          setRepeat={setWeight}
+          weight={repeat}
+          setWeight={setRepeat}
+        />
       </Modal>
     </>
   )

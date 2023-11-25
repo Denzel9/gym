@@ -42,11 +42,11 @@ const TrainingPage: FunctionComponent = () => {
       </div>
 
       <StartBtn />
-      {!isBegining && (
+      {isBegining && (
         <>
           <div ref={ref} className=" mt-[500px] ">
             {trainingList.map((el) => {
-              return <TrainingBox key={el} title={el} />
+              return <TrainingBox key={el} title={el} trainingList={trainingList} />
             })}
           </div>
           <AddTrainingBtn trainingList={trainingList} />

@@ -5,6 +5,7 @@ export const mainSlice = createSlice({
   initialState: {
     timer: 0,
     isBegining: false,
+    temporaryTimer: 0,
   },
   reducers: {
     incremented: (state) => {
@@ -19,7 +20,10 @@ export const mainSlice = createSlice({
     setIsBegining: (state) => {
       state.isBegining = !state.isBegining
     },
+    saveTimer: (state) => {
+      state.temporaryTimer = state.timer
+    },
   },
 })
 
-export const { incremented, decremented, setIsBegining, reset } = mainSlice.actions
+export const { incremented, decremented, setIsBegining, reset, saveTimer } = mainSlice.actions

@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { FunctionComponent, ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 
 interface ModalProps {
   title: string
@@ -9,7 +10,8 @@ interface ModalProps {
   yesBtn?: string
   noBtn?: string
   children?: ReactNode
-  yesBtnFn(): void
+  yesBtnFn?(): void
+  link?: string
 }
 
 const Modal: FunctionComponent<ModalProps> = ({
@@ -21,12 +23,13 @@ const Modal: FunctionComponent<ModalProps> = ({
   title,
   children,
   yesBtnFn,
+  link,
 }) => {
   return (
     <div
       className={classNames(
         modal ? 'bg-black bg-opacity-40' : 'bg-opacity-0 pointer-events-none ',
-        ' fixed z-20 h-full w-full top-0 left-0 flex items-center '
+        ' fixed z-50 h-full w-full top-0 left-0 flex items-center '
       )}
       onClick={() => setModal(false)}
     >
@@ -44,9 +47,22 @@ const Modal: FunctionComponent<ModalProps> = ({
             <button onClick={() => setModal(false)} className=" bg-red-800 px-4 py-2 rounded-xl">
               {noBtn}
             </button>
-            <button onClick={() => yesBtnFn()} className=" bg-green-800 px-4 py-2 rounded-xl">
-              {yesBtn}
-            </button>
+            {link ? (
+              <Link
+                to={link!}
+                onClick={() => yesBtnFn && yesBtnFn()}
+                className=" bg-green-800 px-4 py-2 rounded-xl"
+              >
+                {yesBtn}
+              </Link>
+            ) : (
+              <button
+                onClick={() => yesBtnFn && yesBtnFn()}
+                className=" bg-green-800 px-4 py-2 rounded-xl"
+              >
+                {yesBtn}
+              </button>
+            )}
           </div>
         )}
       </div>

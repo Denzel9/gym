@@ -23,8 +23,7 @@ const TrainingPage: FunctionComponent = () => {
 
   useEffect(() => {
     isBegining && handleScroll()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [isBegining])
 
   return (
     <section>

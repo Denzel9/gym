@@ -7,7 +7,7 @@ const ModalChildren: FunctionComponent<{
   repeat: number
   setRepeat(repeat: number): void
 }> = ({ weight, setWeight, repeat, setRepeat }) => {
-  console.log(weight, repeat)
+
   return (
     <>
       <p className="mt-5 mb-2">Повторений:</p>

@@ -9,22 +9,24 @@ import { useAppDispatch } from '../../hooks/useAppDispatch'
 
 const Layout: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
   const isBegining = useAppSelector((state) => state.timer.isBegining)
+  const isTraining = useAppSelector((state) => state.currentTraining.isTraining)
+  const value = useAppSelector((state) => state.timer.timer)
 
-  const training = 'Тренировка груди, плеч, бицепса и трицепса'
+  const trainingType = 'Тренировка груди, плеч, бицепса и трицепса'
 
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (training === 'Тренировка груди, плеч, бицепса и трицепса') {
+    if (trainingType === 'Тренировка груди, плеч, бицепса и трицепса' && isTraining) {
       dispatch(createExercise(initTraning))
     }
-  }, [dispatch, training])
+  }, [dispatch, trainingType, isTraining])
 
   return (
     <div className=" bg-training h-screen bg-cover bg-center">
       <div className=" flex items-center justify-between p-5">
         <Logo />
-        {isBegining && <Timer isBegining={isBegining} />}
+        {isBegining && <Timer isBegining={isBegining} time={value} />}
       </div>
       <div className="p-5">{children}</div>
       <Nav />

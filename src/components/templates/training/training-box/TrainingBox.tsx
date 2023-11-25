@@ -16,7 +16,7 @@ const TrainingBox: FunctionComponent<{ title: string; trainingList: string[] }> 
 
   const exercisesSteps = Object.entries(exercises)?.find((el) => el[0] === title)?.[1]
 
-  const steps = exercisesSteps && Object.keys(exercisesSteps!)
+  const steps = exercisesSteps && Object.keys(exercisesSteps!).map((el) => String(+el + 1))
 
   const isAvailableBox = (step: number) => steps?.find((el) => +el === step)
 

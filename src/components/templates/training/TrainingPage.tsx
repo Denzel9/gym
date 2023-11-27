@@ -28,14 +28,14 @@ const TrainingPage: FunctionComponent = () => {
   return (
     <section>
       <div className={classNames(isBegining ? ' h-screen' : ' h-5/6')}>
-        <h1 className=" text-5xl">Сегодня</h1>
+        <h1 className=" text-5xl">Сегодня:</h1>
         <p className=" text-3xl">{date}</p>
         <div className=" mt-24 ">
           <p className=" text-2xl">Тренировка груди, плеч, бицепса и трицепса</p>
           {isBegining && (
             <button
               onClick={handleScroll}
-              className=" bg-base px-4 py-2 rounded-xl flex items-center gap-2"
+              className=" bg-base px-4 py-2 mt-2 rounded-xl flex items-center gap-2 border border-gold"
             >
               <span>К упражнениям</span> <MdArrowForwardIos className=" mt-1 text-lg" />
             </button>

@@ -12,9 +12,9 @@ const EditBlock: FunctionComponent<{ title: string; steps: string[] }> = ({ titl
       .join('')
   )
   let currentExercise = filterExircise.filter((el) => el === title).length
-  console.log(currentExercise, filterExircise)
+
   return (
-    <div className=" absolute top-0 left-0 w-full h-full rounded-xl bg-base border border-gold p-2">
+    <div className=" absolute top-10 left-0 rounded-xl border border-gold p-2">
       <button
         className="  mt-6 flex items-center gap-2"
         onClick={() => {

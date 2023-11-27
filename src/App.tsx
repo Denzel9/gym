@@ -1,4 +1,4 @@
-import ClerkProviderWithRoutes from './ClerkProviderWithRoutes'
+import ClerkProviderWithRoutes from './providers/ClerkProviderWithRoutes'
 
 function App() {
   return <ClerkProviderWithRoutes />

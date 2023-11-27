@@ -1,18 +1,20 @@
-import {
-  SignIn,
-  SignInButton,
-  SignOutButton,
-  SignUp,
-  SignedOut,
-  UserButton,
-  useUser,
-} from '@clerk/clerk-react'
-import { FunctionComponent } from 'react'
-import '../userButton.css'
+import { SignInButton, SignOutButton, UserButton, useUser } from '@clerk/clerk-react'
+import { FunctionComponent, useEffect, useState } from 'react'
+import '../styles/userButton.css'
+import { UserService } from '../services/userService'
 const Profile: FunctionComponent = () => {
-  const { user, isSignedIn } = useUser()
+  const { user, isSignedIn, isLoaded } = useUser()
+  const [id, setId] = useState([])
+
+  const isSign = () => {
+    UserService.findUser('user_2YlPJwLIdFxjQFMz3tyGn7VRVUR').then((res) => setId(res))
+  }
+  useEffect(() => isSign(), [])
+
+  console.log(id)
   return (
     <>
+      {!isLoaded && <h1>Загрузка</h1>}
       <div className=" bg-white bg-opacity-60 rounded-xl p-2 text-black">
         <div className=" flex items-start justify-between">
           <img className=" rounded-full w-24" src={user?.imageUrl} alt="person" />

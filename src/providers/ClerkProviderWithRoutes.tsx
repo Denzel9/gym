@@ -1,12 +1,12 @@
 import { FunctionComponent } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
-import Main from './pages/Main'
-import ReportTraining from './pages/ReportTraining'
-import Training from './pages/Training'
+import Main from '../pages/Main'
+import ReportTraining from '../pages/ReportTraining'
+import Training from '../pages/Training'
 import { ClerkProvider, RedirectToSignIn, SignedIn, SignedOut } from '@clerk/clerk-react'
-import Layout from './components/layout/Layout'
-import Calendar from './pages/Calendar'
-import Profile from './pages/Profile'
+import Layout from '../components/layout/Layout'
+import Calendar from '../pages/Calendar'
+import Profile from '../pages/Profile'
 
 const ClerkProviderWithRoutes: FunctionComponent = () => {
   if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {

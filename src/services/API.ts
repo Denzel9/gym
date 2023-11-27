@@ -6,3 +6,6 @@ export const axiosBase = axios.create({
     'Content-Type': 'application/json',
   },
 })
+
+
+export const findUserApi = (userId: string) => `?userId=${userId}`

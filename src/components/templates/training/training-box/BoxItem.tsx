@@ -23,37 +23,33 @@ const BoxItem: FunctionComponent<{
     dispatch(saveExercise({ repeat, weight, title, step }))
   }
   const endedStep = steps.includes(String(step))
-  return (
-    <>
-      <div
-        onClick={(e) => (+e.currentTarget.textContent! === step ? setModal(true) : () => {})}
-        className={classNames(
-          endedStep && 'bg-green-800',
-          !disabled ? ' bg-base pointer-events-auto ' : 'bg-lightGray',
-          +currentStep + 1 === step && 'animate-pulse',
-          ' p-1 flex items-center justify-center pointer-events-none '
-        )}
-      >
-        {step}
-      </div>
-      <Modal
-        modal={modal}
-        setModal={setModal}
-        isConfirmation={true}
-        title={`Подход ${step}`}
-        yesBtnFn={handleclick}
-        yesBtn="Сохранить"
-        noBtn="Отменить"
-      >
-        <ModalChildren
-          repeat={weight}
-          setRepeat={setWeight}
-          weight={repeat}
-          setWeight={setRepeat}
-        />
-      </Modal>
-    </>
-  )
+
+return (
+  <>
+    <div
+      onClick={(e) => (+e.currentTarget.textContent! === step ? setModal(true) : () => {})}
+      className={classNames(
+        +endedStep && 'bg-green-800',
+        !disabled ? ' bg-base pointer-events-auto ' : 'bg-lightGray',
+        +currentStep + 1 === step && 'animate-pulse',
+        ' p-1 flex items-center justify-center pointer-events-none '
+      )}
+    >
+      {step}
+    </div>
+    <Modal
+      modal={modal}
+      setModal={setModal}
+      isConfirmation={true}
+      title={`Подход ${step}`}
+      yesBtnFn={handleclick}
+      yesBtn="Сохранить"
+      noBtn="Отменить"
+    >
+      <ModalChildren repeat={weight} setRepeat={setWeight} weight={repeat} setWeight={setRepeat} />
+    </Modal>
+  </>
+)
 }
 
 export default BoxItem

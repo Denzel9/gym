@@ -4,6 +4,7 @@ import { useAppSelector } from '../../../../hooks/useAppSelector'
 
 import { MdLinearScale } from 'react-icons/md'
 import EditBlock from './EditBlock'
+import classNames from 'classnames'
 
 const TrainingBox: FunctionComponent<{ title: string; trainingList: string[] }> = ({
   title,
@@ -16,7 +17,7 @@ const TrainingBox: FunctionComponent<{ title: string; trainingList: string[] }> 
 
   const exercisesSteps = Object.entries(exercises)?.find((el) => el[0] === title)?.[1]
 
-  const steps = exercisesSteps && Object.keys(exercisesSteps!)
+  const steps = exercisesSteps && Object.keys(exercisesSteps!).map((el) => String(+el + 1))
 
   const isAvailableBox = (step: number) => steps?.find((el) => +el === step)
 
@@ -24,20 +25,17 @@ const TrainingBox: FunctionComponent<{ title: string; trainingList: string[] }> 
 
   return (
     <div
-      className=" w-full p-2 bg-gold rounded-xl mt-10 relative py-4"
+      className={classNames(
+        start ? ' h-44' : ' h-16',
+        'duration-500 w-full p-2 bg-gold rounded-xl mt-10 relative py-4'
+      )}
       onClick={() => !start && setStart(true)}
     >
-      <div className=" flex items-center justify-between">
-        <h2 className=" text-2xl">{title}</h2>
-        {start && (
-          <button className=" text-3xl mt-2 z-20" onClick={() => setEdit(!edit)}>
-            <MdLinearScale />
-          </button>
-        )}
-      </div>
-      {start && <p className=" pb-2">Подходы:</p>}
-      {start && (
-        <div>
+      <h2 className=" text-2xl">{title}</h2>
+
+      <div className={classNames(edit ? ' opacity-0 duration-300' : ' opacity-100 duration-300')}>
+        {start && <p className=" pb-2">Подходы:</p>}
+        <div className={classNames(start ? ' opacity-100 duration-700' : ' opacity-0 ')}>
           <div className=" bg-base h-10 mb-10 grid grid-cols-5 rounded-xl overflow-hidden">
             <BoxItem
               step={1}
@@ -77,13 +75,23 @@ const TrainingBox: FunctionComponent<{ title: string; trainingList: string[] }> 
           </div>
           <button
             onClick={() => setStart(false)}
-            className=" float-right -mt-6 -mr-2 bg-base py-2 px-4 rounded-br-xl"
+            className="  absolute right-0 bottom-0 bg-base py-2 px-4 rounded-br-xl"
           >
             Закрыть
           </button>
         </div>
-      )}
+      </div>
+
       {edit && <EditBlock title={title} steps={trainingList!} />}
+
+      {start && (
+        <button
+          className=" text-3xl mt-2 z-20 absolute right-2 top-2"
+          onClick={() => setEdit(!edit)}
+        >
+          <MdLinearScale />
+        </button>
+      )}
     </div>
   )
 }

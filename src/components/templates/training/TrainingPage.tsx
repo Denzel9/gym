@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useRef } from 'react'
-import { getMonth } from '../../../helpers/getMonth'
+import { getMonth } from '../../../helpers/getDate'
 import StartBtn from './StartBtn'
 import { MdArrowForwardIos } from 'react-icons/md'
 import TrainingBox from './training-box/TrainingBox'

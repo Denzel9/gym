@@ -1,3 +1,4 @@
+import { UserIterface } from '../types/user.interface'
 import { axiosBase, findUserApi } from './API'
 
 export const UserService = {
@@ -6,8 +7,8 @@ export const UserService = {
     return data
   },
 
-  async findUser(userId: string) {
-    const { data } = await axiosBase(findUserApi(userId))
-    return data
+  async findUserById(userId: string) {
+    const { data } = await axiosBase<UserIterface[]>(findUserApi(userId))
+    return data[0]
   },
 }

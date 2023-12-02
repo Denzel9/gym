@@ -4,14 +4,14 @@ import '../styles/userButton.css'
 import { UserService } from '../services/userService'
 const Profile: FunctionComponent = () => {
   const { user, isSignedIn, isLoaded } = useUser()
-  const [id, setId] = useState([])
+  const [currentUser, setCurrentUser] = useState({})
 
   const isSign = () => {
-    UserService.findUser('user_2YlPJwLIdFxjQFMz3tyGn7VRVUR').then((res) => setId(res))
+    UserService.findUserById('user_2YlPJwLIdFxjQFMz3tyGn7VRVUR').then((res) => setCurrentUser(res))
   }
   useEffect(() => isSign(), [])
 
-  console.log(id)
+  console.log(currentUser)
   return (
     <>
       {!isLoaded && <h1>Загрузка</h1>}

@@ -31,7 +31,7 @@ export const currentTraining = createSlice({
   initialState,
   reducers: {
     addExercise: (state, { payload }) => {
-      state.exercises = { ...state.exercises, [payload]: {} }
+      state.exercises = { ...state.exercises, [payload]: [] }
     },
     createExercise: (state, { payload }) => {
       state.exercises = { ...state.exercises, ...payload }

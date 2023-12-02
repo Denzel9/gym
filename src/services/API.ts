@@ -7,5 +7,8 @@ export const axiosBase = axios.create({
   },
 })
 
-
+//user
 export const findUserApi = (userId: string) => `?userId=${userId}`
+
+//training
+export const addTrainingDayApi = (userId: string) => `/${userId}`

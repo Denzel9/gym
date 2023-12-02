@@ -12,7 +12,6 @@ import TrainingHeader from './TrainingHeader'
 interface CalendarListItemProps {
   trainingType: string
   setTrainingType(trainingType: string): void
-
   date: string
   calendar: TrainingDayInterface[]
   id: string

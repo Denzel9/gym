@@ -1,17 +1,19 @@
 import { SignInButton, SignOutButton, UserButton, useUser } from '@clerk/clerk-react'
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useContext } from 'react'
 import '../styles/userButton.css'
-import { UserService } from '../services/userService'
+import { Link, useNavigate } from 'react-router-dom'
+import { UserProviderContext } from '../providers/UserProvider'
+import { TODAY } from '../helpers/getDate'
+
 const Profile: FunctionComponent = () => {
+  const navigate = useNavigate()
+
   const { user, isSignedIn, isLoaded } = useUser()
-  const [currentUser, setCurrentUser] = useState({})
+  const { name, calendar } = useContext(UserProviderContext)
 
-  const isSign = () => {
-    UserService.findUserById('user_2YlPJwLIdFxjQFMz3tyGn7VRVUR').then((res) => setCurrentUser(res))
-  }
-  useEffect(() => isSign(), [])
+  const lastTraining = calendar.find((el) => el.training.length && el.date < TODAY)
+  const nextTraining = calendar.find((el) => el.training.length && el.date > TODAY)
 
-  console.log(currentUser)
   return (
     <>
       {!isLoaded && <h1>Загрузка</h1>}
@@ -20,22 +22,25 @@ const Profile: FunctionComponent = () => {
           <img className=" rounded-full w-24" src={user?.imageUrl} alt="person" />
           <p>Уровень: GOLD</p>
         </div>
-        <p>Имя: {user?.firstName}</p>
-        <p>Почта: {user?.primaryEmailAddress?.emailAddress}</p>
-        <p>Предыдущая тренировка: 23.11.23</p>
-        <p>Следующая тренировка: 25.11.23</p>
+        <div className=" mt-3">
+          <p>Имя: {name}</p>
+          <p>Почта: {user?.primaryEmailAddress?.emailAddress}</p>
+          <p>Предыдущая тренировка: {lastTraining?.date}</p>
+          <p>Следующая тренировка: {nextTraining?.date}</p>
+        </div>
       </div>
 
-      <p>История тренировок</p>
-      <p>Расписание</p>
-      <p>Отчет о последней тренировке</p>
-      <p>Рекорды</p>
+      <div className=" flex flex-col mt-5 text-xl">
+        <Link to={'/calendar'}>Расписание</Link>
+        <Link to={'/lastTraining'}>Отчет о последней тренировке</Link>
+        <Link to={'/records'}>Рекорды</Link>
+      </div>
 
       <div className=" absolute right-5 bottom-40 border rounded-full border-gold">
         <UserButton />
       </div>
       {isSignedIn ? (
-        <SignOutButton>Выйти</SignOutButton>
+        <SignOutButton signOutCallback={() => navigate('/')}>Выйти</SignOutButton>
       ) : (
         <SignInButton redirectUrl="/sign-in">Войти</SignInButton>
       )}

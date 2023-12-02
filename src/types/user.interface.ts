@@ -15,7 +15,7 @@ export interface TrainingDayInterface {
 
 export interface DayTraining {
   exercise: string
-  sets: SetsExercise
+  sets: SetsExercise[]
 }
 
 export interface SetsExercise {

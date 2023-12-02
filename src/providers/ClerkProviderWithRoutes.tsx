@@ -7,6 +7,9 @@ import { ClerkProvider, RedirectToSignIn, SignedIn, SignedOut } from '@clerk/cle
 import Layout from '../components/layout/Layout'
 import Calendar from '../pages/Calendar'
 import Profile from '../pages/Profile'
+import Loading from '../pages/Loading'
+import LastTraining from '../pages/LastTraining'
+import Records from '../pages/Records'
 
 const ClerkProviderWithRoutes: FunctionComponent = () => {
   if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
@@ -18,7 +21,10 @@ const ClerkProviderWithRoutes: FunctionComponent = () => {
     <ClerkProvider publishableKey={clerkPubKey} navigate={(to) => navigate(to)}>
       <Layout>
         <Routes>
-          <Route index element={<Main />} />
+          <Route index element={<Loading />} />
+          <Route path="/lasttraining" element={<LastTraining />} />
+          <Route path="/records" element={<Records />} />
+          <Route path="/main" element={<Main />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/reportTraining" element={<ReportTraining />} />
 
@@ -30,7 +36,7 @@ const ClerkProviderWithRoutes: FunctionComponent = () => {
                   <Training />
                 </SignedIn>
                 <SignedOut>
-                  <RedirectToSignIn />
+                  <RedirectToSignIn redirectUrl={'/'} />
                 </SignedOut>
               </>
             }
@@ -43,7 +49,7 @@ const ClerkProviderWithRoutes: FunctionComponent = () => {
                   <Profile />
                 </SignedIn>
                 <SignedOut>
-                  <RedirectToSignIn />
+                  <RedirectToSignIn redirectUrl={'/'} />
                 </SignedOut>
               </>
             }

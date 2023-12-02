@@ -8,7 +8,6 @@ const CalendarList: FunctionComponent<{
 }> = ({ trainingType, setTrainingType }) => {
   const { calendar, id } = useContext(UserProviderContext)
 
-  console.log(calendar)
   return (
     <ul className=" mt-5">
       {calendar?.map((el) => {

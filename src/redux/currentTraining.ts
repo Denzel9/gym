@@ -27,7 +27,7 @@ const initialState: ICartInitialState = {
 }
 
 export const currentTraining = createSlice({
-  name: 'counter',
+  name: 'currentTraining',
   initialState,
   reducers: {
     addExercise: (state, { payload }) => {

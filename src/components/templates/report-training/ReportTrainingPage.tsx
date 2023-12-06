@@ -44,7 +44,7 @@ const ReportTrainingPage: FunctionComponent = () => {
                 <h2 className=" text-xl">{el[0]}</h2>
                 {el[1].map((el, i) => {
                   return (
-                    <div className=" flex items-center gap-2">
+                    <div key={i} className=" flex items-center gap-2">
                       <p>{`Подход ${i + 1}:`}</p>
                       <p>{`${el.weight} кг. на ${el.repeat} раз  `}</p>
                     </div>

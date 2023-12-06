@@ -8,7 +8,7 @@ const Loading: FunctionComponent = () => {
   let navigate = useNavigate()
 
   useEffect(() => {
-    userId && navigate('/main')
+    navigate('/main')
   }, [navigate, userId])
 
   return (

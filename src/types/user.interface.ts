@@ -10,6 +10,7 @@ export interface UserIterface {
 export interface TrainingDayInterface {
   date: string
   time: string
+  type: string
   training: DayTraining[]
 }
 

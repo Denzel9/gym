@@ -23,7 +23,7 @@ const TrainingBox: FunctionComponent<{ title: string; trainingList: string[] }> 
 
   const currentStep = steps?.slice(-1).join('')
 
-  const weights = exercisesSteps?.reduce((acc, cur) => (acc += cur.weight), 0)
+  const weights = exercisesSteps?.reduce((acc, cur) => (acc += cur.weight * cur.repeat), 0)
 
   const repeats = exercisesSteps?.reduce((acc, cur) => (acc += cur.repeat), 0)
 

@@ -1,19 +1,20 @@
-import { useUser, SignInButton, SignUpButton } from '@clerk/clerk-react'
+import { SignInButton, SignUpButton, useAuth } from '@clerk/clerk-react'
 import { FunctionComponent, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const Loading: FunctionComponent = () => {
-  const { user } = useUser()
+  const { userId } = useAuth()
+
   let navigate = useNavigate()
 
   useEffect(() => {
-    user && navigate('/main')
-  }, [navigate, user])
+    userId && navigate('/main')
+  }, [navigate, userId])
 
   return (
     <div className=" mt-[15rem]">
       <h1 className=" text-3xl">Загрузка...</h1>
-      {!user && (
+      {userId && (
         <div className=" flex flex-col gap-3 mt-3">
           <div className=" text-xl bg-gold w-fit px-4 py-2 rounded-lg border border-base">
             <SignInButton mode="modal">Войти</SignInButton>

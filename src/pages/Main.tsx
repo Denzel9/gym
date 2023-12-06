@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 const Main: FunctionComponent = () => {
   const { name, calendar } = useContext(UserProviderContext)
   const todayTrining = calendar?.find((el) => el.date === TODAY)
-  console.log(todayTrining, calendar)
+
   return (
     <main className="">
       <h1 className=" text-3xl">С возвращение,</h1>

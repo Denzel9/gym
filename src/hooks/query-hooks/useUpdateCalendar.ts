@@ -1,28 +1,38 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { TrainingService } from '../../services/trainingService'
 import { TrainingDayInterface } from '../../types/user.interface'
-import { upperBody } from '../../data/initTraning'
+import { initDayTraining, typeTraining } from '../../data/initTraning'
+import { UserService } from '../../services/userService'
 
-export const useUpdateCalendar = (calendar: TrainingDayInterface[], id: string, date: string) => {
+export const useGetUser = (id: string) => {
+  const { data, isLoading } = useQuery('user', () => UserService.findUserById(id))
+  return { data, isLoading }
+}
+
+export const useAddTrainingDay = (calendar: TrainingDayInterface[], id: string, date: string) => {
   const queryClient = useQueryClient()
 
   const trainingDay = calendar?.find((el) => el.date === date)
+  console.log(calendar)
 
   const {
     mutateAsync: mutateCalendar,
     isLoading,
     isSuccess,
   } = useMutation(
-    'calendar',
+    'updateCalendar',
     () => {
-      if (!trainingDay?.training?.length) {
-        trainingDay?.training.push(...upperBody)
+      if (trainingDay && !trainingDay?.training?.length) {
+        trainingDay?.training.push(...typeTraining.upperBody)
+      }
+      if (!trainingDay) {
+        calendar.push(initDayTraining(date, typeTraining.upperBody))
       }
       return TrainingService.updateCalendar(calendar, id)
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: 'calendar' })
+        queryClient.invalidateQueries({ queryKey: 'user' })
       },
     }
   )
@@ -37,7 +47,7 @@ export const useDeleteTrainingDay = (
   const queryClient = useQueryClient()
 
   const trainingDay = calendar?.find((el) => el.date === date)
-
+  console.log(date)
   const {
     mutateAsync: deleteTraining,
     isLoading,
@@ -52,7 +62,7 @@ export const useDeleteTrainingDay = (
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: 'calendar' })
+        queryClient.invalidateQueries({ queryKey: 'user' })
       },
     }
   )

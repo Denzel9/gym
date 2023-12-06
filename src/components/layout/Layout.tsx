@@ -25,7 +25,7 @@ const Layout: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
   }, [dispatch, trainingType, isTraining])
 
   return (
-    <div className=" bg-training h-screen bg-cover bg-center">
+    <div className=" bg-gradient-to-r from-base to-zinc-900  h-screen bg-cover bg-center">
       <div className=" flex items-center justify-between p-5">
         <Logo />
         {isBegining && <Timer isBegining={isBegining} time={value} />}

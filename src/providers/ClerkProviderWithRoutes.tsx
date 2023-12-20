@@ -7,7 +7,6 @@ import { ClerkProvider, RedirectToSignIn, SignedIn, SignedOut } from '@clerk/cle
 import Layout from '../components/layout/Layout'
 import Calendar from '../pages/Calendar'
 import Profile from '../pages/Profile'
-import Loading from '../pages/Loading'
 import LastTraining from '../pages/LastTraining'
 import Records from '../pages/Records'
 import UserProvider from './UserProvider'
@@ -23,7 +22,6 @@ const ClerkProviderWithRoutes: FunctionComponent = () => {
       <UserProvider>
         <Layout>
           <Routes>
-            <Route index element={<Loading />} />
             <Route path="/lasttraining" element={<LastTraining />} />
             <Route path="/records" element={<Records />} />
             <Route path="/main" element={<Main />} />

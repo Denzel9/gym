@@ -1,6 +1,5 @@
 import { FunctionComponent, ReactNode, createContext, useEffect, useState } from 'react'
 import { UserIterface } from '../types/user.interface'
-import Loading from '../pages/Loading'
 import { useGetUser } from '../hooks/query-hooks/useUpdateCalendar'
 import { useAuth } from '@clerk/clerk-react'
 
@@ -14,11 +13,7 @@ const UserProvider: FunctionComponent<{ children: ReactNode }> = ({ children }) 
 
   useEffect(() => setCurrentUser(data!), [data, userId])
 
-  return (
-    <UserProviderContext.Provider value={currentUser}>
-      {currentUser ? children : <Loading />}
-    </UserProviderContext.Provider>
-  )
+  return <UserProviderContext.Provider value={currentUser}>{children}</UserProviderContext.Provider>
 }
 
 export default UserProvider

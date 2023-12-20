@@ -7,7 +7,9 @@ import { useContext } from 'react'
 import { UserProviderContext } from '../../providers/UserProvider'
 
 export const useGetUser = (id: string) => {
-  const { data, isLoading } = useQuery('user', () => UserService.findUserById(id))
+  const { data, isLoading } = useQuery('user', () => UserService.findUserById(id), {
+    enabled: !!id,
+  })
   return { data, isLoading }
 }
 

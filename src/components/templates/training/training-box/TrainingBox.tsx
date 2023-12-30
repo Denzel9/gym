@@ -39,27 +39,28 @@ const TrainingBox: FunctionComponent<{ title: string; trainingList: string[] }> 
   return (
     <div
       className={classNames(
-        start ? ' h-60' : ' h-32',
+        start ? ' h-66' : ' h-20',
         'duration-500 w-full p-2 bg-white bg-opacity-40 rounded-xl mt-10 relative py-4'
       )}
       onClick={() => !start && setStart(true)}
     >
-      <h2 className=" text-2xl">{title}</h2>
-
-      <div className=" flex gap-5">
-        <div>
-          <p>weights</p>
-          <p>{weights}</p>
+      <h2 className=" text-2xl border-b pb-2 mb-2 border-gold z-10 relative">{title}</h2>
+      {start && (
+        <div className=" flex gap-5">
+          <div>
+            <p>Вес</p>
+            <p>{weights} кг.</p>
+          </div>
+          <div>
+            <p>Повторы</p>
+            <p>{repeats} раз</p>
+          </div>
+          <div>
+            <p>Подходы</p>
+            <p>{sets}</p>
+          </div>
         </div>
-        <div>
-          <p>repeats</p>
-          <p>{repeats}</p>
-        </div>
-        <div>
-          <p>sets</p>
-          <p>{sets}</p>
-        </div>
-      </div>
+      )}
 
       <div className=" h-2 mt-2 w-full bg-base rounded-full relative">
         <div
@@ -68,7 +69,7 @@ const TrainingBox: FunctionComponent<{ title: string; trainingList: string[] }> 
       </div>
 
       <div className={classNames(edit ? ' opacity-0 duration-300' : ' opacity-100 duration-300')}>
-        {start && <p className=" pb-2">Подходы:</p>}
+        {start && <p className=" py-2">Подходы:</p>}
         <div className={classNames(start ? ' opacity-100 duration-700' : ' opacity-0 ')}>
           <div className=" bg-base h-10 mb-10 grid grid-cols-5 rounded-xl overflow-hidden">
             <BoxItem

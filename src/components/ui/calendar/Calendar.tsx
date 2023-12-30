@@ -6,7 +6,11 @@ import { UserProviderContext } from '../../../providers/UserProvider'
 const Calendar: FunctionComponent<{
   dayfilter: string
   setDayFilter(dayfilter: string): void
-}> = ({ dayfilter, setDayFilter }) => {
+  monthFilter: number
+  selectedDay: number
+  setSelectedDay(selectedDay: number): void
+  yearFilter: number
+}> = ({ dayfilter, setDayFilter, monthFilter, selectedDay, setSelectedDay, yearFilter }) => {
   const { calendar } = useContext(UserProviderContext)
   const trainingDay = calendar?.filter((el) => el.training.length)
 
@@ -22,14 +26,18 @@ const Calendar: FunctionComponent<{
         })}
       </div>
       <div className=" grid grid-cols-7">
-        {getMonthDays().map((el) => {
+        {getMonthDays(monthFilter).map((el) => {
           return (
             <CalendarItem
+              yearFilter={yearFilter}
+              monthFilter={monthFilter}
               key={el}
               title={el}
               trainingDay={trainingDay!}
               dayfilter={dayfilter}
               setDayFilter={setDayFilter}
+              selectedDay={selectedDay}
+              setSelectedDay={setSelectedDay}
             />
           )
         })}

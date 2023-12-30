@@ -26,34 +26,34 @@ const StartBtn: FunctionComponent = () => {
     dispatch(startTraining())
     setModal(false)
   }
-
-  return (
-    <>
-      <button
-        onClick={() =>
-          isTraining ? (steps.flat(2).length ? setModal(true) : handleStop()) : handleStart()
-        }
-        className={classNames(
-          !isBegining ? 'bg-green-800' : 'bg-red-800',
-          ' h-20 w-20 rounded-full absolute bottom-32 right-5'
-        )}
-      >
-        {!isBegining ? 'Старт' : 'Стоп'}
-      </button>
-      {steps.flat(2).length ? (
-        <Modal
-          title="Вы уверены что хотите закончить тренировку?"
-          modal={modal}
-          setModal={setModal}
-          isConfirmation
-          yesBtn="Да"
-          noBtn="Нет"
-          link="/reportTraining"
-          yesBtnFn={handleStop}
-        />
-      ) : null}
-    </>
-  )
+  
+return (
+  <>
+    <button
+      onClick={() =>
+        isTraining ? (steps.flat(2).length ? setModal(true) : handleStop()) : handleStart()
+      }
+      className={classNames(
+        !isBegining ? 'bg-green-800' : 'bg-red-800',
+        ' h-20 w-20 rounded-full fixed bottom-32 right-5 z-30'
+      )}
+    >
+      {!isBegining ? 'Старт' : 'Стоп'}
+    </button>
+    {steps.flat(2).length ? (
+      <Modal
+        title="Вы уверены что хотите закончить тренировку?"
+        modal={modal}
+        setModal={setModal}
+        isConfirmation
+        yesBtn="Да"
+        noBtn="Нет"
+        link="/reportTraining"
+        yesBtnFn={handleStop}
+      />
+    ) : null}
+  </>
+)
 }
 
 export default StartBtn

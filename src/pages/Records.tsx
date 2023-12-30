@@ -25,20 +25,23 @@ const Records: FunctionComponent = () => {
         Назад
       </Link>
       <h1 className=" text-3xl mt-5">Рекорды:</h1>
+      {!lastTraining?.training.length && <h2>Нет завершенных тренировок</h2>}
+      {!!Object.entries(uniqueExercise).length && <p className=" mt-5 mb-2">За весь период:</p>}
       {Object.entries(uniqueExercise).map((el) => {
         return (
           <div key={el[0]} className=" flex items-center gap-2">
             <p>{el[0]}</p>
-            <p>{Math.max(...el[1])}</p>
+            <p>{el[1].length && Math.max(...el[1])}</p>
           </div>
         )
       })}
+      {lastTraining?.training.length && <p className=" mt-5 mb-2">На последней тренировке:</p>}{' '}
       {lastTraining?.training.map((el) => {
         const lastTreningRecords = el.sets.map((el) => el.weight)
         return (
           <div key={el.exercise} className=" flex items-center gap-2">
             <p>{el.exercise}</p>
-            <p>{Math.max(...lastTreningRecords)}</p>
+            <p>{lastTreningRecords.length && Math.max(...lastTreningRecords)}</p>
           </div>
         )
       })}

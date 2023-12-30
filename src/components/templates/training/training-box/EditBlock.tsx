@@ -14,7 +14,7 @@ const EditBlock: FunctionComponent<{ title: string; steps: string[] }> = ({ titl
   let currentExercise = filterExircise.filter((el) => el === title).length
 
   return (
-    <div className=" absolute top-10 left-0 rounded-xl border border-gold p-2">
+    <div className=" absolute top-0 left-0 w-full h-full pt-12 rounded-xl border border-gold p-2 bg-base">
       <button
         className="  mt-6 flex items-center gap-2"
         onClick={() => {

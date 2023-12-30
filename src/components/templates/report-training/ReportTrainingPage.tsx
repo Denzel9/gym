@@ -14,54 +14,78 @@ const ReportTrainingPage: FunctionComponent = () => {
   const isBegining = useAppSelector((state) => state.timer.isBegining)
   const isTraining = useAppSelector((state) => state.currentTraining.isTraining)
   const time = useAppSelector((state) => state.timer.temporaryTimer)
+  const allExercise = Object.entries(
+    useAppSelector((state) => state.currentTraining.temporaryTraining)
+  )
+  const lostExercise = allExercise.filter((el) => !el[1].length).map((el) => el[0])
 
+  console.log(lostExercise)
   useEffect(() => {
     dispatch(saveTraining())
     dispatch(saveTimer())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [dispatch])
 
   const handleStop = () => {
     dispatch(reset())
     dispatch(stopTraining())
     dispatch(startTraining())
   }
+
   return (
-    <div>
+    <div className=" relative h-5/6">
       <h1 className=" text-2xl">Отчет о тренировке</h1>
-      <div className=" flex items-center gap-3">
+      <div className=" flex items-center gap-3 mt-5">
         <p>Продолжительность тренировки:</p>
         <Timer isBegining={isBegining} time={time} />
       </div>
-      {isTraining && (
+      {isTraining && !isReport && (
         <button onClick={() => setIsReport(!isReport)}>Показать отчет по упражнениям</button>
       )}
       {(isReport || !isTraining) && (
         <div>
           {temporaryTraining.map((el) => {
-            return (
-              <div className=" bg-base mb-5 rounded-xl p-2 border border-gold" key={el[0]}>
-                <h2 className=" text-xl">{el[0]}</h2>
-                {el[1].map((el, i) => {
-                  return (
-                    <div key={i} className=" flex items-center gap-2">
-                      <p>{`Подход ${i + 1}:`}</p>
-                      <p>{`${el.weight} кг. на ${el.repeat} раз  `}</p>
-                    </div>
-                  )
-                })}
-              </div>
-            )
+            if (el[1].length)
+              return (
+                <div className=" mt-5 bg-base mb-5 rounded-xl p-2 border border-gold" key={el[0]}>
+                  <h2 className=" text-xl">{el[0]}</h2>
+                  {el[1].map((el, i) => {
+                    return (
+                      <div key={i} className=" flex items-center gap-2">
+                        <p>{`Подход ${i + 1}:`}</p>
+                        <p>{`${el.weight} кг. на ${el.repeat} раз`}</p>
+                      </div>
+                    )
+                  })}
+                </div>
+              )
+            return null
           })}
         </div>
       )}
+      <div>
+        <h2>Пропущенные упражнения:</h2>
+        <ul className=" mt-2">
+          {lostExercise.map((el) => {
+            return <li key={el}>{el}</li>
+          })}
+        </ul>
+      </div>
       {isTraining && (
-        <>
-          <Link onClick={() => dispatch(setIsBegining())} to={'/training'}>
+        <div className="rounded-lg mt-5">
+          <Link
+            onClick={() => dispatch(setIsBegining())}
+            to={'/training'}
+            className="bg-gold block px-4 py-2 rounded-tl-lg rounded-tr-lg w-fit"
+          >
             Продолжить тренировку
           </Link>
-          <button onClick={handleStop}>Закончить тренировку</button>
-        </>
+          <button
+            onClick={handleStop}
+            className=" bg-base block px-6 py-2 rounded-bl-lg rounded-br-lg border-b border-gold"
+          >
+            Закончить тренировку
+          </button>
+        </div>
       )}
     </div>
   )

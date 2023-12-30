@@ -1,15 +1,31 @@
-import { FunctionComponent, useContext, useState } from 'react'
+import { FunctionComponent, useContext, useEffect, useState } from 'react'
 import Calendar from '../../ui/calendar/Calendar'
 import CalendarDay from './CalendarDay'
 import { UserProviderContext } from '../../../providers/UserProvider'
-import { TODAY_NUMBER, currentMonth, currentYear } from '../../../helpers/getDate'
+import {
+  TODAY_NUMBER,
+  currentMonth,
+  currentYear,
+  getMonth,
+  getMonthCalendar,
+} from '../../../helpers/getDate'
 import { useDeleteTrainingDay } from '../../../hooks/query-hooks/useUpdateCalendar'
 import CalendarPlaningDay from './CalendarPlaningDay'
 
+import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md'
+
 const CalendarPage: FunctionComponent = () => {
+  const [yearFilter, setYearFilter] = useState(currentYear)
+  const [monthFilter, setMonthFilter] = useState(+String(currentMonth).padStart(2, '0'))
   const [dayfilter, setDayFilter] = useState(TODAY_NUMBER)
+  const [selectedDay, setSelectedDay] = useState(0)
   const [plan, setPlan] = useState(false)
   const [trainingType, setTrainingType] = useState('Верхнеплечевой')
+
+  useEffect(() => {
+    if (monthFilter === currentMonth) setDayFilter(TODAY_NUMBER)
+    else setDayFilter(String(1).padStart(2, '0'))
+  }, [monthFilter])
 
   const { calendar, id } = useContext(UserProviderContext)
   const { deleteTraining } = useDeleteTrainingDay(
@@ -18,13 +34,58 @@ const CalendarPage: FunctionComponent = () => {
     `${dayfilter}.${currentMonth + 1}.${currentYear}`
   )
 
-  const dayTraining = calendar?.find((el) => el.date.slice(0, 2) === dayfilter)
+  const handleAddYear = () => {
+    setMonthFilter(0)
+    setYearFilter(yearFilter + 1)
+  }
+
+  const handleDeleteYear = () => {
+    setMonthFilter(11)
+    setYearFilter(yearFilter - 1)
+  }
+
+  const dayTraining = calendar?.find((el) => {
+    return (
+      el.date.slice(0, 2) === dayfilter &&
+      +el.date.slice(3, 4) === monthFilter &&
+      +el.date.slice(6, 12) === yearFilter
+    )
+  })
 
   return (
     <div className=" pb-24">
-      <h1 className=" text-3xl">Календарь</h1>
-      <Calendar dayfilter={dayfilter} setDayFilter={setDayFilter} />
+      <div className=" flex items-baseline justify-between">
+        <h1 className=" text-3xl">Календарь</h1>
+        <div className=" flex items-center gap-2">
+          <button
+            onClick={() =>
+              monthFilter === 0 ? handleDeleteYear() : setMonthFilter((prev) => prev - 1)
+            }
+          >
+            <MdArrowBackIos />
+          </button>
+          <p>{getMonthCalendar(monthFilter)}</p>
+          <button
+            onClick={() =>
+              monthFilter === 11 ? handleAddYear() : setMonthFilter((prev) => prev + 1)
+            }
+          >
+            <MdArrowForwardIos />
+          </button>
+        </div>
+      </div>
+      <Calendar
+        monthFilter={monthFilter}
+        dayfilter={dayfilter}
+        setDayFilter={setDayFilter}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+        yearFilter={yearFilter}
+      />
       <CalendarDay
+        monthFilter={monthFilter}
+        yearFilter={yearFilter}
+        dayfilter={dayfilter}
         dayTraining={dayTraining!}
         setPlan={setPlan}
         date={`${dayfilter}.${currentMonth + 1}.${currentYear}`}
@@ -40,6 +101,8 @@ const CalendarPage: FunctionComponent = () => {
         </div>
       ) : null}
       <CalendarPlaningDay
+        monthFilter={monthFilter}
+        yearFilter={yearFilter}
         setTrainingType={setTrainingType}
         trainingType={trainingType}
         setPlan={setPlan}
@@ -47,7 +110,7 @@ const CalendarPage: FunctionComponent = () => {
         id={id}
         dayfilter={dayfilter}
         calendar={calendar}
-        date={dayTraining?.date!}
+        date={`${dayfilter} ${getMonth(currentMonth)}`}
       />
     </div>
   )

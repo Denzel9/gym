@@ -1,12 +1,20 @@
 import { FunctionComponent } from 'react'
 import { TrainingDayInterface } from '../../../types/user.interface'
-import { TODAY } from '../../../helpers/getDate'
+import { TODAY, TODAY_NUMBER, currentMonth, currentYear } from '../../../helpers/getDate'
 
 const CalendarDay: FunctionComponent<{
   dayTraining: TrainingDayInterface
   setPlan(plan: boolean): void
   date: string
-}> = ({ dayTraining, date, setPlan }) => {
+  dayfilter: string
+  monthFilter: number
+  yearFilter: number
+}> = ({ dayTraining, date, setPlan, dayfilter, monthFilter, yearFilter }) => {
+  const availableDay = () => {
+    if (yearFilter > currentYear) return true
+    if (monthFilter > currentMonth) return true
+    if (dayfilter >= TODAY_NUMBER) return true
+  }
   return (
     <div className=" relative">
       {dayTraining?.training?.length ? <h2 className=" mt-5 text-xl">План на день</h2> : null}
@@ -16,12 +24,14 @@ const CalendarDay: FunctionComponent<{
           <p className=" text-2xl text-center mt-10">{`${
             date === TODAY ? 'Сегодня' : 'В этот день'
           } тренировка не запланирована`}</p>
-          <button
-            onClick={() => setPlan(true)}
-            className=" bg-base px-4 py-2 rounded-lg border border-gold mt-3"
-          >
-            Запланировать
-          </button>
+          {availableDay() && (
+            <button
+              onClick={() => setPlan(true)}
+              className=" bg-base px-4 py-2 rounded-lg border border-gold mt-3"
+            >
+              Запланировать
+            </button>
+          )}
         </div>
       )}
 

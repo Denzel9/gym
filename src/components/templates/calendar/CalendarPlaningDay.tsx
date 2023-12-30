@@ -3,11 +3,15 @@ import { FunctionComponent, useState } from 'react'
 import { MdClose } from 'react-icons/md'
 import { initExerciseType } from '../../../data/initTraning'
 import { TrainingDayInterface } from '../../../types/user.interface'
-import { currentMonth, currentYear } from '../../../helpers/getDate'
 import { useAddTrainingDay } from '../../../hooks/query-hooks/useUpdateCalendar'
 import { useAppSelector } from '../../../hooks/useAppSelector'
 import { useAppDispatch } from '../../../hooks/useAppDispatch'
-import { addExercise, clearTraining, deleteExercise } from '../../../redux/initTraining'
+import {
+  addExercise,
+  clearTraining,
+  deleteExercise,
+  initTrainingList,
+} from '../../../redux/initTraining'
 
 const CalendarPlaningDay: FunctionComponent<{
   setPlan(plan: boolean): void
@@ -18,11 +22,23 @@ const CalendarPlaningDay: FunctionComponent<{
   id: string
   calendar: TrainingDayInterface[]
   dayfilter: string
-}> = ({ setPlan, plan, date, setTrainingType, trainingType, calendar, id, dayfilter }) => {
+  monthFilter: number
+  yearFilter: number
+}> = ({
+  setPlan,
+  plan,
+  date,
+  setTrainingType,
+  trainingType,
+  monthFilter,
+  yearFilter,
+  dayfilter,
+}) => {
+  const [addNewExercise, setAddNewExercise] = useState(false)
   const dispatch = useAppDispatch()
   const [exerciseName, setExerciseName] = useState('')
   const exerciseLists = useAppSelector((state) => state.initTraining.trainingList)
-  const exerciseList = exerciseLists.find((el) => el.type === trainingType)
+  let exerciseList = exerciseLists.find((el) => el.type === trainingType)
 
   const newExercise = exerciseList?.exercise.map((el) => ({
     exercise: el,
@@ -30,7 +46,7 @@ const CalendarPlaningDay: FunctionComponent<{
   }))
 
   const { mutateCalendar } = useAddTrainingDay(
-    `${dayfilter}.${currentMonth + 1}.${currentYear}`,
+    `${dayfilter}.${String(monthFilter + 1).padStart(2, '0')}.${yearFilter}`,
     newExercise!
   )
 
@@ -46,20 +62,19 @@ const CalendarPlaningDay: FunctionComponent<{
       .then(() => dispatch(clearTraining()))
       .then(() => setPlan(false))
   }
-
   return (
     <div
       className={classNames(
         plan ? 'bg-black bg-opacity-40' : 'bg-opacity-0 pointer-events-none ',
-        ' z-10 fixed bg-base right-0 top-0 w-full h-full'
+        ' z-50 fixed bg-base right-0 top-0 w-full h-full'
       )}
       onClick={() => setPlan(false)}
     >
       <div
         onClick={(e) => e.stopPropagation()}
         className={classNames(
-          plan && 'translate-x-0 ',
-          'duration-300 w-4/5 h-full bg-base float-right translate-x-96 p-2 relative'
+          plan ? 'translate-x-0' : ' translate-x-96',
+          'duration-300 w-4/5 h-full bg-base float-right p-2 relative'
         )}
       >
         <button onClick={() => setPlan(false)}>
@@ -91,9 +106,10 @@ const CalendarPlaningDay: FunctionComponent<{
                   <span className=" text-gold text-lg">{i + 1}.</span> {el}
                 </p>
                 <button
-                  onClick={() =>
-                    dispatch(deleteExercise({ type: trainingType, exercise: exerciseName }))
-                  }
+                  onClick={() => {
+                    console.log({ type: trainingType, exercise: el })
+                    dispatch(deleteExercise({ type: trainingType, exercise: el }))
+                  }}
                 >
                   <MdClose />
                 </button>
@@ -101,19 +117,35 @@ const CalendarPlaningDay: FunctionComponent<{
             )
           })}
         </div>
-
-        <input
-          placeholder="Упражнение"
-          type="text"
-          value={exerciseName}
-          onChange={(e) => setExerciseName(e.target.value)}
-          className=" text-black p-1 rounded-lg w-full mt-5"
-        />
         <button
-          className=" border border-gold px-4 py-2 rounded-lg  mt-2 shadow shadow-black"
-          onClick={handleAddExercise}
+          onClick={() => {
+            dispatch(initTrainingList())
+          }}
         >
-          Добавить
+          Восстановить тренировку
+        </button>
+        {addNewExercise && (
+          <div className=" relative">
+            <input
+              placeholder="Упражнение"
+              type="text"
+              value={exerciseName}
+              onChange={(e) => setExerciseName(e.target.value)}
+              className=" text-black p-1 rounded-lg w-full mt-5"
+            />
+            <button
+              className=" absolute right-0 top-2 bg-gold rounded-full p-1"
+              onClick={() => setAddNewExercise(false)}
+            >
+              <MdClose />
+            </button>
+          </div>
+        )}
+        <button
+          className=" block border border-gold px-4 py-2 rounded-lg  mt-2 shadow shadow-black"
+          onClick={addNewExercise ? handleAddExercise : () => setAddNewExercise(true)}
+        >
+          {addNewExercise ? 'Сохранить упражнение' : 'Добавить упражнение'}
         </button>
 
         <button

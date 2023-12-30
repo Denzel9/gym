@@ -13,7 +13,11 @@ const UserProvider: FunctionComponent<{ children: ReactNode }> = ({ children }) 
 
   useEffect(() => setCurrentUser(data!), [data, userId])
 
-  return <UserProviderContext.Provider value={currentUser}>{children}</UserProviderContext.Provider>
+  return (
+    <UserProviderContext.Provider value={currentUser}>
+      {currentUser ? children : null}
+    </UserProviderContext.Provider>
+  )
 }
 
 export default UserProvider

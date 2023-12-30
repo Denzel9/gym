@@ -35,6 +35,9 @@ export const initTraining = createSlice({
   name: 'initTraining',
   initialState,
   reducers: {
+    initTrainingList: (state) => {
+      state.trainingList = initExerciseType
+    },
     addExercise: (state, { payload }) => {
       const { type, exercise } = payload
       const exerciseItim = state.trainingList.find((el) => el.type === type)
@@ -53,4 +56,4 @@ export const initTraining = createSlice({
   },
 })
 
-export const { addExercise, deleteExercise, clearTraining } = initTraining.actions
+export const { addExercise, deleteExercise, clearTraining, initTrainingList } = initTraining.actions

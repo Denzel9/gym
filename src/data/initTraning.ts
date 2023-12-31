@@ -7,6 +7,13 @@ export const initTraning = {
   'Подьем на плечи в бок': [],
 }
 
+export const trainingType = {
+  1: 'Верхнеплечевой',
+  2: 'Спина',
+  3: 'Ноги',
+  4: 'Кардио',
+}
+
 export const initExerciseType: { type: string; exercise: string[]; disabled: boolean }[] = [
   {
     type: 'Выберите тип тренировки',

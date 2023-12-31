@@ -10,6 +10,7 @@ import Profile from '../pages/Profile'
 import LastTraining from '../pages/LastTraining'
 import Records from '../pages/Records'
 import UserProvider from './UserProvider'
+import Test from '../pages/Test'
 
 const ClerkProviderWithRoutes: FunctionComponent = () => {
   if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
@@ -27,6 +28,7 @@ const ClerkProviderWithRoutes: FunctionComponent = () => {
             <Route path="/main" element={<Main />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/reportTraining" element={<ReportTraining />} />
+            <Route path="/oops" element={<Test />} />
 
             <Route
               path="/training"

@@ -11,12 +11,20 @@ const MainPage: FunctionComponent = () => {
   const { name, calendar } = useContext(UserProviderContext)
   const sortCalendar = calendar?.sort((a, b) => +a?.date.slice(0, 2) - +b?.date.slice(0, 2))
   const todayTrining = sortCalendar?.find((el) => el?.date === TODAY)
-  const nextTraining = sortCalendar?.find(
-    (el) =>
-      el.training.length &&
-      el.date.slice(0, 2) > TODAY.slice(0, 2) &&
-      el.date.slice(4, 6) === TODAY.slice(4, 6)
-  )
+  const nextTraining = sortCalendar?.find((el) => {
+    const traininDate = el.date.split('.')
+    const todayDate = TODAY.split('.')
+
+    if (
+      (el.training.length && traininDate[0] > todayDate[0]) ||
+      traininDate[1] > todayDate[1] ||
+      traininDate[2] > todayDate[2]
+    ) {
+      return el
+    }
+    return null
+  })
+
   const lastTraining = sortCalendar?.find(
     (el) =>
       el.training.length &&
@@ -36,19 +44,18 @@ const MainPage: FunctionComponent = () => {
       <div className=" mt-5">
         <Carusel name={name} img={user?.imageUrl!} />
 
-        <div className="mt-5 w-full bg-white bg-opacity-40 p-2 rounded-lg">
-          <div className=" flex justify-between">
-            {todayTrining?.training.length ? (
-              <h2>Следующая тренировка:</h2>
-            ) : (
-              <h2>Следующая тренировка не запланирована</h2>
-            )}
-            <span>{isTrainingDay(todayTrining!, nextTraining!)}</span>
-          </div>
+        <div className="mt-5 w-full bg-white bg-opacity-40 p-2 rounded-lg relative h-16">
           {todayTrining?.training.length ? (
-            <Link to={'/training'}>Начать</Link>
+            <h2>Следующая тренировка:</h2>
           ) : (
-            <Link to={'/calendar'}>Запланировать</Link>
+            <h2>Следующая тренировка:</h2>
+          )}
+          <span>{isTrainingDay(todayTrining!, nextTraining!)}</span>
+
+          {!!todayTrining?.training.length && (
+            <Link to={'/training'} className=" bg-gold px-4 py-2 rounded-lg absolute right-5 mt-2">
+              Начать
+            </Link>
           )}
         </div>
 

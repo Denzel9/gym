@@ -1,15 +1,17 @@
-import { FunctionComponent, useEffect, useRef } from 'react'
-import { getMonth } from '../../../helpers/getDate'
+import { FunctionComponent, useContext, useEffect, useRef } from 'react'
+import { TODAY, getMonth } from '../../../helpers/getDate'
 import StartBtn from './StartBtn'
 import { MdArrowForwardIos } from 'react-icons/md'
 import TrainingBox from './training-box/TrainingBox'
 import { useAppSelector } from '../../../hooks/useAppSelector'
 import AddTrainingBtn from './AddTrainingBtn'
 import classNames from 'classnames'
+import { UserProviderContext } from '../../../providers/UserProvider'
+import { trainingType } from '../../../data/initTraning'
 
 const TrainingPage: FunctionComponent = () => {
-  const date = `${new Date().getDate()}  ${getMonth(new Date().getUTCMonth())}`
-
+  const date = `${new Date().getDate()} ${getMonth(new Date().getUTCMonth())}`
+  const { calendar } = useContext(UserProviderContext)
   const ref = useRef<HTMLDivElement | null>(null)
   const isBegining = useAppSelector((state) => state.timer.isBegining)
   const trainingList = Object.keys(useAppSelector((state) => state.currentTraining.exercises))
@@ -25,13 +27,29 @@ const TrainingPage: FunctionComponent = () => {
     isBegining && handleScroll()
   }, [isBegining])
 
+  const todayTraining = calendar?.find((el) => {
+    const dayDate = el.date.split('.')
+    const todayDate = TODAY.split('.')
+    if (
+      el.training.length &&
+      dayDate[0] === todayDate[0] &&
+      dayDate[1] === todayDate[1] &&
+      dayDate[2] === todayDate[2]
+    ) {
+      return el
+    }
+    return null
+  })
+  const type = Object.entries(trainingType).find((el) => el[0] === todayTraining?.type)
+
   return (
     <section>
       <div className={classNames(isBegining ? ' h-screen' : ' h-5/6')}>
         <h1 className=" text-5xl">Сегодня:</h1>
         <p className=" text-3xl">{date}</p>
         <div className=" mt-24 ">
-          <p className=" text-2xl">Тренировка груди, плеч, бицепса и трицепса</p>
+          <h2>Тип тренировки:</h2>
+          <p className=" text-2xl">{type && type[1]}</p>
           {isBegining && (
             <button
               onClick={handleScroll}

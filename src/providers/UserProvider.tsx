@@ -2,6 +2,7 @@ import { FunctionComponent, ReactNode, createContext, useEffect, useState } from
 import { UserIterface } from '../types/user.interface'
 import { useGetUser } from '../hooks/query-hooks/useUpdateCalendar'
 import { useAuth } from '@clerk/clerk-react'
+import Test from '../pages/Test'
 
 export const UserProviderContext = createContext({} as UserIterface)
 
@@ -14,8 +15,8 @@ const UserProvider: FunctionComponent<{ children: ReactNode }> = ({ children }) 
   useEffect(() => setCurrentUser(data!), [data, userId])
 
   return (
-    <UserProviderContext.Provider value={currentUser}>
-      {currentUser ? children : null}
+    <UserProviderContext.Provider value={currentUser || null}>
+      {currentUser ? children : <Test />}
     </UserProviderContext.Provider>
   )
 }

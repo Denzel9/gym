@@ -31,7 +31,7 @@ const CalendarPage: FunctionComponent = () => {
   const { deleteTraining } = useDeleteTrainingDay(
     calendar,
     id,
-    `${dayfilter}.${currentMonth + 1}.${currentYear}`
+    `${dayfilter}.${String(monthFilter + 1).padStart(2, '0')}.${yearFilter}`
   )
 
   const handleAddYear = () => {
@@ -45,11 +45,8 @@ const CalendarPage: FunctionComponent = () => {
   }
 
   const dayTraining = calendar?.find((el) => {
-    return (
-      el.date.slice(0, 2) === dayfilter &&
-      +el.date.slice(3, 4) === monthFilter &&
-      +el.date.slice(6, 12) === yearFilter
-    )
+    const test = el.date.split('.')
+    return test[0] === dayfilter && +test[1] === monthFilter + 1 && +test[2] === yearFilter
   })
 
   return (
@@ -90,7 +87,7 @@ const CalendarPage: FunctionComponent = () => {
         setPlan={setPlan}
         date={`${dayfilter}.${currentMonth + 1}.${currentYear}`}
       />
-      {dayTraining?.training?.length ? (
+      {!!dayTraining?.training?.length ? (
         <div className=" flex justify-center">
           <button
             onClick={() => deleteTraining()}

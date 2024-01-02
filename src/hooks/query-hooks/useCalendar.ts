@@ -1,21 +1,30 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { TrainingService } from '../../services/trainingService'
-import { DayTraining, TrainingDayInterface } from '../../types/user.interface'
+import { CalendarService } from '../../services/calendarService'
 import { initDayTraining, initExerciseType } from '../../data/initTraning'
-import { UserService } from '../../services/userService'
 import { useContext } from 'react'
 import { UserProviderContext } from '../../providers/UserProvider'
+import { DayTraining, TrainingDayInterface } from '../../types/calendar.interface'
+import { CalendarProviderContext } from '../../providers/CalendarProvider'
 
-export const useGetUser = (id: string) => {
-  const { data, isLoading } = useQuery('user', () => UserService.findUserById(id), {
+export const useAddCalendar = () => {
+  const { mutateAsync: addCalendar } = useMutation('calendar', (id: string) =>
+    CalendarService.addCalendar(id)
+  )
+  return { addCalendar }
+}
+
+export const useGetCalendar = (id: string) => {
+  const { data } = useQuery('calendar', () => CalendarService.getCalendar(id), {
     enabled: !!id,
   })
-  return { data, isLoading }
+  return { data }
 }
 
 export const useAddTrainingDay = (date: string, training: DayTraining[]) => {
   const queryClient = useQueryClient()
-  const { calendar, id } = useContext(UserProviderContext)
+  const { id } = useContext(UserProviderContext)
+  const { calendar } = useContext(CalendarProviderContext)
+
   const trainingDay = calendar?.find((el) => el.date === date)
 
   const {
@@ -31,7 +40,7 @@ export const useAddTrainingDay = (date: string, training: DayTraining[]) => {
       if (!trainingDay) {
         calendar.push(initDayTraining(date, training, initExerciseType[1].type))
       }
-      return TrainingService.updateCalendar(calendar, id)
+      return CalendarService.updateCalendar(calendar, id)
     },
     {
       onSuccess: () => {
@@ -61,7 +70,7 @@ export const useDeleteTrainingDay = (
       if (trainingDay?.training?.length) {
         trainingDay?.training.splice(0, trainingDay?.training?.length)
       }
-      return TrainingService.updateCalendar(calendar, id)
+      return CalendarService.updateCalendar(calendar, id)
     },
     {
       onSuccess: () => {

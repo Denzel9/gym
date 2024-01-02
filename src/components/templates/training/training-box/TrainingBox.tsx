@@ -1,40 +1,39 @@
 import { FunctionComponent, useState } from 'react'
 import BoxItem from './BoxItem'
-import { useAppSelector } from '../../../../hooks/useAppSelector'
 
 import { MdLinearScale } from 'react-icons/md'
 import EditBlock from './EditBlock'
 import classNames from 'classnames'
+import { DayTraining, SetsExercise } from '../../../../types/calendar.interface'
 
-const TrainingBox: FunctionComponent<{ title: string; trainingList: string[] }> = ({
-  title,
-  trainingList,
-}) => {
+const TrainingBox: FunctionComponent<{
+  title: string
+  todayTraining: DayTraining[]
+  exercise: string
+  sets: SetsExercise[]
+}> = ({ title, todayTraining, sets }) => {
   const [start, setStart] = useState(false)
   const [edit, setEdit] = useState(false)
 
-  const exercises = useAppSelector((state) => state.currentTraining.exercises)
-
-  const exercisesSteps = Object.entries(exercises)?.find((el) => el[0] === title)?.[1]
+  const exercisesSteps = todayTraining.map((el) => el.exercise)
 
   const steps = exercisesSteps && Object.keys(exercisesSteps!).map((el) => String(+el + 1))
 
   const isAvailableBox = (step: number) => steps?.find((el) => +el === step)
 
-  const currentStep = steps?.slice(-1).join('')
+  const currentStep = steps.length
 
-  const weights = exercisesSteps?.reduce((acc, cur) => (acc += cur.weight * cur.repeat), 0)
+  const weights = sets.reduce((acc, cur) => (acc += cur.weight * cur.repeat), 0)
 
-  const repeats = exercisesSteps?.reduce((acc, cur) => (acc += cur.repeat), 0)
+  const repeats = sets.reduce((acc, cur) => (acc += cur.repeat), 0)
 
-  const sets = exercisesSteps?.length
-
+  console.log(sets)
   const progressBar = () => {
-    if (steps?.length === 1) return 'w-1/5'
-    if (steps?.length === 2) return ' w-2/5'
-    if (steps?.length === 3) return ' w-3/5'
-    if (steps?.length === 4) return ' w-4/5'
-    if (steps?.length === 5) return ' w-full'
+    if (sets?.length === 1) return 'w-1/5'
+    if (sets?.length === 2) return ' w-2/5'
+    if (sets?.length === 3) return ' w-3/5'
+    if (sets?.length === 4) return ' w-4/5'
+    if (sets?.length === 5) return ' w-full'
   }
   return (
     <div
@@ -57,7 +56,7 @@ const TrainingBox: FunctionComponent<{ title: string; trainingList: string[] }> 
           </div>
           <div>
             <p>Подходы</p>
-            <p>{sets}</p>
+            <p>{sets.length}</p>
           </div>
         </div>
       )}
@@ -77,35 +76,35 @@ const TrainingBox: FunctionComponent<{ title: string; trainingList: string[] }> 
               disabled={false}
               currentStep={currentStep!}
               title={title}
-              steps={steps!}
+              steps={sets.length!}
             />
             <BoxItem
               step={2}
               disabled={!isAvailableBox(1)!}
               currentStep={currentStep!}
               title={title}
-              steps={steps!}
+              steps={sets.length!}
             />
             <BoxItem
               step={3}
               disabled={!isAvailableBox(2)!}
               currentStep={currentStep!}
               title={title}
-              steps={steps!}
+              steps={sets.length!}
             />
             <BoxItem
               step={4}
               disabled={!isAvailableBox(3)!}
               currentStep={currentStep!}
               title={title}
-              steps={steps!}
+              steps={sets.length!}
             />
             <BoxItem
               step={5}
               disabled={!isAvailableBox(4)!}
               currentStep={currentStep!}
               title={title}
-              steps={steps!}
+              steps={sets.length!}
             />
           </div>
           <button
@@ -117,7 +116,7 @@ const TrainingBox: FunctionComponent<{ title: string; trainingList: string[] }> 
         </div>
       </div>
 
-      {edit && <EditBlock title={title} steps={trainingList!} />}
+      {edit && <EditBlock title={title} steps={[]} />}
 
       {start && (
         <button

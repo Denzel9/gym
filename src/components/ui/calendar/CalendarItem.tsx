@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect } from 'react'
-import { TrainingDayInterface } from '../../../types/user.interface'
 import classNames from 'classnames'
 import { TODAY_NUMBER, currentMonth } from '../../../helpers/getDate'
+import { TrainingDayInterface } from '../../../types/calendar.interface'
 
 const CalendarItem: FunctionComponent<{
   title: number

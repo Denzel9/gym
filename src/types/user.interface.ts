@@ -1,3 +1,5 @@
+import { TrainingDayInterface } from './calendar.interface'
+
 export interface UserIterface {
   avatar: string
   calendar: TrainingDayInterface[]
@@ -5,21 +7,4 @@ export interface UserIterface {
   id: string
   name: string
   userId: string
-}
-
-export interface TrainingDayInterface {
-  date: string
-  time: string
-  type: string
-  training: DayTraining[]
-}
-
-export interface DayTraining {
-  exercise: string
-  sets: SetsExercise[]
-}
-
-export interface SetsExercise {
-  repeat: number
-  weight: number
 }

@@ -1,4 +1,4 @@
-import { DayTraining, TrainingDayInterface } from '../types/user.interface'
+import { DayTraining, TrainingDayInterface } from '../types/calendar.interface'
 
 export const initTraning = {
   Бицепс: [],
@@ -7,11 +7,11 @@ export const initTraning = {
   'Подьем на плечи в бок': [],
 }
 
-export const trainingType = {
-  1: 'Верхнеплечевой',
-  2: 'Спина',
-  3: 'Ноги',
-  4: 'Кардио',
+export const trainingType = (type: number) => {
+  if (type === 1) return 'Верхнеплечевой'
+  if (type === 2) return 'Спина'
+  if (type === 3) return 'Ноги'
+  if (type === 4) return 'Кардио'
 }
 
 export const initExerciseType: { type: string; exercise: string[]; disabled: boolean }[] = [

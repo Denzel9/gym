@@ -2,8 +2,7 @@ import classNames from 'classnames'
 import { FunctionComponent, useState } from 'react'
 import { MdClose } from 'react-icons/md'
 import { initExerciseType } from '../../../data/initTraning'
-import { TrainingDayInterface } from '../../../types/user.interface'
-import { useAddTrainingDay } from '../../../hooks/query-hooks/useUpdateCalendar'
+import { useAddTrainingDay } from '../../../hooks/query-hooks/useCalendar'
 import { useAppSelector } from '../../../hooks/useAppSelector'
 import { useAppDispatch } from '../../../hooks/useAppDispatch'
 import {
@@ -12,6 +11,7 @@ import {
   deleteExercise,
   initTrainingList,
 } from '../../../redux/initTraining'
+import { TrainingDayInterface } from '../../../types/calendar.interface'
 
 const CalendarPlaningDay: FunctionComponent<{
   setPlan(plan: boolean): void

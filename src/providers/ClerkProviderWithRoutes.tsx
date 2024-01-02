@@ -10,7 +10,9 @@ import Profile from '../pages/Profile'
 import LastTraining from '../pages/LastTraining'
 import Records from '../pages/Records'
 import UserProvider from './UserProvider'
-import Test from '../pages/Test'
+
+import CalendarProvider from './CalendarProvider'
+import Loading from '../pages/Loading'
 
 const ClerkProviderWithRoutes: FunctionComponent = () => {
   if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
@@ -21,43 +23,45 @@ const ClerkProviderWithRoutes: FunctionComponent = () => {
   return (
     <ClerkProvider publishableKey={clerkPubKey} navigate={(to) => navigate(to)}>
       <UserProvider>
-        <Layout>
-          <Routes>
-            <Route path="/lasttraining" element={<LastTraining />} />
-            <Route path="/records" element={<Records />} />
-            <Route path="/main" element={<Main />} />
-            <Route path="/calendar" element={<Calendar />} />
-            <Route path="/reportTraining" element={<ReportTraining />} />
-            <Route path="/oops" element={<Test />} />
+        <CalendarProvider>
+          <Layout>
+            <Routes>
+              <Route path="/lasttraining" element={<LastTraining />} />
+              <Route path="/records" element={<Records />} />
+              <Route path="/main" element={<Main />} />
+              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/reportTraining" element={<ReportTraining />} />
+              <Route path="/loading" element={<Loading />} />
 
-            <Route
-              path="/training"
-              element={
-                <>
-                  <SignedIn>
-                    <Training />
-                  </SignedIn>
-                  <SignedOut>
-                    <RedirectToSignIn redirectUrl={'/'} />
-                  </SignedOut>
-                </>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <>
-                  <SignedIn>
-                    <Profile />
-                  </SignedIn>
-                  <SignedOut>
-                    <RedirectToSignIn redirectUrl={'/'} />
-                  </SignedOut>
-                </>
-              }
-            />
-          </Routes>
-        </Layout>
+              <Route
+                path="/training"
+                element={
+                  <>
+                    <SignedIn>
+                      <Training />
+                    </SignedIn>
+                    <SignedOut>
+                      <RedirectToSignIn redirectUrl={'/'} />
+                    </SignedOut>
+                  </>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <>
+                    <SignedIn>
+                      <Profile />
+                    </SignedIn>
+                    <SignedOut>
+                      <RedirectToSignIn redirectUrl={'/'} />
+                    </SignedOut>
+                  </>
+                }
+              />
+            </Routes>
+          </Layout>
+        </CalendarProvider>
       </UserProvider>
     </ClerkProvider>
   )

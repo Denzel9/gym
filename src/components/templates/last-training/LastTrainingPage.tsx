@@ -1,14 +1,14 @@
 import { FunctionComponent, useContext } from 'react'
-import { TODAY } from '../../../helpers/getDate'
-import { UserProviderContext } from '../../../providers/UserProvider'
 import LastTrainingItem from './LastTrainingItem'
 import { Link } from 'react-router-dom'
 
 import { MdArrowBackIos } from 'react-icons/md'
+import { CalendarProviderContext } from '../../../providers/CalendarProvider'
 
 const LastTrainingPage: FunctionComponent = () => {
-  const { calendar } = useContext(UserProviderContext)
-  const lastTraining = calendar?.find((el) => el.training.length && el.date < TODAY)
+  const { todayTraining } = useContext(CalendarProviderContext)
+  const lastTraining = todayTraining
+
   return (
     <div className=" pb-24">
       <Link to={'/profile'} className=" flex items-center">

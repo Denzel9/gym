@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import { SetsExercise } from '../../../types/user.interface'
+import { SetsExercise } from '../../../types/calendar.interface'
 
 const LastTrainingItem: FunctionComponent<{ exercise: string; sets: SetsExercise[] }> = ({
   exercise,

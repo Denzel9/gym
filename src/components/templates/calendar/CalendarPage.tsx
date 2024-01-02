@@ -9,15 +9,23 @@ import {
   getMonth,
   getMonthCalendar,
 } from '../../../helpers/getDate'
-import { useDeleteTrainingDay } from '../../../hooks/query-hooks/useUpdateCalendar'
+import { useDeleteTrainingDay } from '../../../hooks/query-hooks/useCalendar'
 import CalendarPlaningDay from './CalendarPlaningDay'
 
 import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md'
+import { CalendarProviderContext } from '../../../providers/CalendarProvider'
 
 const CalendarPage: FunctionComponent = () => {
+  const { id } = useContext(UserProviderContext)
+  const { calendar, getTraining } = useContext(CalendarProviderContext)
   const [yearFilter, setYearFilter] = useState(currentYear)
   const [monthFilter, setMonthFilter] = useState(+String(currentMonth).padStart(2, '0'))
   const [dayfilter, setDayFilter] = useState(TODAY_NUMBER)
+
+  const trainingDay = getTraining(
+    `${dayfilter}.${String(monthFilter + 1).padStart(2, '0')}.${yearFilter}`
+  )
+
   const [selectedDay, setSelectedDay] = useState(0)
   const [plan, setPlan] = useState(false)
   const [trainingType, setTrainingType] = useState('Верхнеплечевой')
@@ -27,7 +35,6 @@ const CalendarPage: FunctionComponent = () => {
     else setDayFilter(String(1).padStart(2, '0'))
   }, [monthFilter])
 
-  const { calendar, id } = useContext(UserProviderContext)
   const { deleteTraining } = useDeleteTrainingDay(
     calendar,
     id,
@@ -43,11 +50,6 @@ const CalendarPage: FunctionComponent = () => {
     setMonthFilter(11)
     setYearFilter(yearFilter - 1)
   }
-
-  const dayTraining = calendar?.find((el) => {
-    const test = el.date.split('.')
-    return test[0] === dayfilter && +test[1] === monthFilter + 1 && +test[2] === yearFilter
-  })
 
   return (
     <div className=" pb-24">
@@ -83,11 +85,11 @@ const CalendarPage: FunctionComponent = () => {
         monthFilter={monthFilter}
         yearFilter={yearFilter}
         dayfilter={dayfilter}
-        dayTraining={dayTraining!}
+        dayTraining={trainingDay!}
         setPlan={setPlan}
         date={`${dayfilter}.${currentMonth + 1}.${currentYear}`}
       />
-      {!!dayTraining?.training?.length ? (
+      {!!trainingDay?.training?.length ? (
         <div className=" flex justify-center">
           <button
             onClick={() => deleteTraining()}

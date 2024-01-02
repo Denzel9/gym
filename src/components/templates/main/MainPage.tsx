@@ -4,11 +4,14 @@ import { TODAY, TOMORROW } from '../../../helpers/getDate'
 import { UserProviderContext } from '../../../providers/UserProvider'
 import { useUser } from '@clerk/clerk-react'
 import Carusel from './carusel/Carusel'
-import { TrainingDayInterface } from '../../../types/user.interface'
+import { CalendarProviderContext } from '../../../providers/CalendarProvider'
+import { TrainingDayInterface } from '../../../types/calendar.interface'
 
 const MainPage: FunctionComponent = () => {
   const { user } = useUser()
-  const { name, calendar } = useContext(UserProviderContext)
+  const { name } = useContext(UserProviderContext)
+  const { calendar } = useContext(CalendarProviderContext)
+
   const sortCalendar = calendar?.sort((a, b) => +a?.date.slice(0, 2) - +b?.date.slice(0, 2))
   const todayTrining = sortCalendar?.find((el) => el?.date === TODAY)
   const nextTraining = sortCalendar?.find((el) => {

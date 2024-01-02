@@ -19,7 +19,6 @@ const ReportTrainingPage: FunctionComponent = () => {
   )
   const lostExercise = allExercise.filter((el) => !el[1].length).map((el) => el[0])
 
-  console.log(lostExercise)
   useEffect(() => {
     dispatch(saveTraining())
     dispatch(saveTimer())

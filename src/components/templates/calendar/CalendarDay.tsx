@@ -1,13 +1,13 @@
 import { FunctionComponent, useEffect, useState } from 'react'
-import { TrainingDayInterface } from '../../../types/user.interface'
 import { TODAY, TODAY_NUMBER, currentMonth, currentYear } from '../../../helpers/getDate'
 import { MdOutlineClose } from 'react-icons/md'
-import { useAddTrainingDay } from '../../../hooks/query-hooks/useUpdateCalendar'
+import { useAddTrainingDay } from '../../../hooks/query-hooks/useCalendar'
 
 import { MdOutlineKeyboardArrowUp, MdOutlineKeyboardArrowDown } from 'react-icons/md'
+import { TrainingDayInterface } from '../../../types/calendar.interface'
 
 const CalendarDay: FunctionComponent<{
-  dayTraining: TrainingDayInterface
+  dayTraining: TrainingDayInterface | undefined
   setPlan(plan: boolean): void
   date: string
   dayfilter: string
@@ -19,6 +19,7 @@ const CalendarDay: FunctionComponent<{
   const [exercise, setExercise] = useState('')
   const [editExercise, setEditExercise] = useState(false)
   const [showPlanDay, setShowPlanDay] = useState(true)
+
   const availableDay = () => {
     if (yearFilter > currentYear) return true
     if (monthFilter > currentMonth) return true
@@ -27,7 +28,7 @@ const CalendarDay: FunctionComponent<{
 
   const { mutateCalendar } = useAddTrainingDay(
     `${dayfilter}.${String(monthFilter + 1).padStart(2, '0')}.${yearFilter}`,
-    dayTraining?.training
+    dayTraining?.training!
   )
 
   const handleDeleteExercise = (exercise: number) => {
@@ -47,7 +48,7 @@ const CalendarDay: FunctionComponent<{
   useEffect(() => {
     setTimeout(() => success && setSuccess(false), 1000)
   }, [success])
-
+  console.log(dayTraining)
   return (
     <div className=" relative">
       {success && (

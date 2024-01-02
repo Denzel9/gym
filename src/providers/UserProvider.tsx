@@ -1,22 +1,35 @@
 import { FunctionComponent, ReactNode, createContext, useEffect, useState } from 'react'
 import { UserIterface } from '../types/user.interface'
-import { useGetUser } from '../hooks/query-hooks/useUpdateCalendar'
+
 import { useAuth } from '@clerk/clerk-react'
-import Test from '../pages/Test'
+
+import Loading from '../pages/Loading'
+import { useAddUser, useGetUsers } from '../hooks/query-hooks/useUser'
+import { useAddCalendar } from '../hooks/query-hooks/useCalendar'
 
 export const UserProviderContext = createContext({} as UserIterface)
 
 const UserProvider: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<UserIterface>({} as UserIterface)
   const { userId } = useAuth()
+  const { data: users, isLoading } = useGetUsers(userId!)
+  const { addCalendar } = useAddCalendar()
+  const { addUser } = useAddUser()
 
-  const { data } = useGetUser(userId!)
-
-  useEffect(() => setCurrentUser(data!), [data, userId])
+  useEffect(() => {
+    const user = users?.find((el) => el.userId === userId)
+    if (!isLoading && !user && userId) {
+      addUser(userId)
+        .then((res) => setCurrentUser(res))
+        .then(() => addCalendar(userId))
+    } else if (user) {
+      setCurrentUser(user)
+    }
+  }, [addCalendar, addUser, isLoading, userId, users])
 
   return (
-    <UserProviderContext.Provider value={currentUser || null}>
-      {currentUser ? children : <Test />}
+    <UserProviderContext.Provider value={currentUser}>
+      {currentUser ? children : <Loading />}
     </UserProviderContext.Provider>
   )
 }

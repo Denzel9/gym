@@ -6,12 +6,13 @@ import { useAppSelector } from '../../hooks/useAppSelector'
 import { initTraning } from '../../data/initTraning'
 import { createExercise } from '../../redux/currentTraining'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
+import { useLocation } from 'react-router-dom'
 
 const Layout: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
   const isBegining = useAppSelector((state) => state.timer.isBegining)
   const isTraining = useAppSelector((state) => state.currentTraining.isTraining)
   const value = useAppSelector((state) => state.timer.timer)
-
+  const { pathname } = useLocation()
   const trainingType = 'Тренировка груди, плеч, бицепса и трицепса'
 
   const dispatch = useAppDispatch()
@@ -25,11 +26,11 @@ const Layout: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
   return (
     <div className=" bg-gradient-to-r from-base to-zinc-900  h-screen bg-cover bg-center">
       <div className=" flex items-center justify-between p-5">
-        <Logo />
+        {pathname !== '/loading' && <Logo />}
         {isBegining && <Timer isBegining={isBegining} time={value} />}
       </div>
-      <div className="p-5">{children}</div>
-      <Nav />
+      <div className="p-5 h-5/6">{children}</div>
+      {pathname !== '/loading' && <Nav />}
     </div>
   )
 }

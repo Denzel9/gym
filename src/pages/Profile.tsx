@@ -3,16 +3,16 @@ import { FunctionComponent, useContext } from 'react'
 import '../styles/userButton.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserProviderContext } from '../providers/UserProvider'
-import { TODAY } from '../helpers/getDate'
+import { CalendarProviderContext } from '../providers/CalendarProvider'
 
 const Profile: FunctionComponent = () => {
   const navigate = useNavigate()
 
   const { user, isSignedIn, isLoaded } = useUser()
-  const { name, calendar } = useContext(UserProviderContext)
+  const { name } = useContext(UserProviderContext)
+  const { lastTraining, nextTraining } = useContext(CalendarProviderContext)
 
-  const lastTraining = calendar.find((el) => el.training.length && el.date < TODAY)
-  const nextTraining = calendar.find((el) => el.training.length && el.date > TODAY)
+  console.log(lastTraining, nextTraining)
 
   return (
     <>

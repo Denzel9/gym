@@ -5,6 +5,7 @@ import { useAuth } from '@clerk/clerk-react'
 
 import { useAddUser, useGetUsers } from '../hooks/query-hooks/useUser'
 import { useAddCalendar } from '../hooks/query-hooks/useCalendar'
+import SignIn from '../pages/SignIn'
 
 export const UserProviderContext = createContext({} as UserIterface)
 
@@ -25,10 +26,10 @@ const UserProvider: FunctionComponent<{ children: ReactNode }> = ({ children }) 
       setCurrentUser(user)
     }
   }, [addCalendar, addUser, isLoading, userId, users])
-
+  console.log(currentUser)
   return (
     <UserProviderContext.Provider value={currentUser}>
-      {currentUser ? children : null}
+      {currentUser?.id ? children : <SignIn />}
     </UserProviderContext.Provider>
   )
 }

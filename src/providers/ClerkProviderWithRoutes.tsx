@@ -26,9 +26,21 @@ const ClerkProviderWithRoutes: FunctionComponent = () => {
         <CalendarProvider>
           <Layout>
             <Routes>
+              <Route
+                index
+                element={
+                  <>
+                    <SignedIn>
+                      <Main />
+                    </SignedIn>
+                    <SignedOut>
+                      <RedirectToSignIn redirectUrl={'/'} />
+                    </SignedOut>
+                  </>
+                }
+              />
               <Route path="/lasttraining" element={<LastTraining />} />
               <Route path="/records" element={<Records />} />
-              <Route path="/main" element={<Main />} />
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/reportTraining" element={<ReportTraining />} />
               <Route path="/editProfile" element={<EditProfile />} />

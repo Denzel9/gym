@@ -1,3 +1,10 @@
+export interface CalendarInterface {
+  name: string
+  userId: string
+  id: string
+  calendar: TrainingDayInterface[]
+}
+
 export interface TrainingDayInterface {
   date: string
   time: string

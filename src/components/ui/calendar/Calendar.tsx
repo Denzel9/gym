@@ -1,7 +1,7 @@
 import { FunctionComponent, useContext } from 'react'
 import CalendarItem from './CalendarItem'
 import { getMonthDays, weekDays } from '../../../helpers/getDate'
-import { UserProviderContext } from '../../../providers/UserProvider'
+import { CalendarProviderContext } from '../../../providers/CalendarProvider'
 
 const Calendar: FunctionComponent<{
   dayfilter: string
@@ -11,7 +11,7 @@ const Calendar: FunctionComponent<{
   setSelectedDay(selectedDay: number): void
   yearFilter: number
 }> = ({ dayfilter, setDayFilter, monthFilter, selectedDay, setSelectedDay, yearFilter }) => {
-  const { calendar } = useContext(UserProviderContext)
+  const { calendar } = useContext(CalendarProviderContext)
   const trainingDay = calendar?.filter((el) => el.training.length)
 
   return (

@@ -18,6 +18,8 @@ export const calendarAxios = axios.create({
 
 //userService
 export const findUserApi = (userId: string) => `?userId=${userId}`
+export const userApi = (userId: string) => `${userId}`
+
 
 //calendarService
 export const calendarApi = (userId: string) => `/${userId}`

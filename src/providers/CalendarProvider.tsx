@@ -1,11 +1,9 @@
 import { FunctionComponent, ReactNode, createContext, useContext, useEffect, useState } from 'react'
-import { UserIterface } from '../types/user.interface'
 
 import { UserProviderContext } from './UserProvider'
 import { useGetCalendar } from '../hooks/query-hooks/useCalendar'
-import { TrainingDayInterface } from '../types/calendar.interface'
+import { CalendarInterface, TrainingDayInterface } from '../types/calendar.interface'
 import { TODAY } from '../helpers/getDate'
-import Loading from '../pages/Loading'
 
 interface CalendarProviderContextProps {
   name: string
@@ -21,7 +19,7 @@ interface CalendarProviderContextProps {
 export const CalendarProviderContext = createContext({} as CalendarProviderContextProps)
 
 const CalendarProvider: FunctionComponent<{ children: ReactNode }> = ({ children }) => {
-  const [calendarList, setCalendarList] = useState<UserIterface>({} as UserIterface)
+  const [calendarList, setCalendarList] = useState<CalendarInterface>({} as CalendarInterface)
   const { id } = useContext(UserProviderContext)
   const { data } = useGetCalendar(id!)
 
@@ -45,7 +43,7 @@ const CalendarProvider: FunctionComponent<{ children: ReactNode }> = ({ children
     const dayDate = el.date.split('.')
     const todayDate = TODAY.split('.')
     if (
-      (el.training.length && dayDate[0] < todayDate[0] && dayDate[1] < todayDate[1]) ||
+      (el.training.length && dayDate[0] < todayDate[0] && dayDate[1] <= todayDate[1]) ||
       dayDate[2] < todayDate[2]
     ) {
       return el
@@ -92,7 +90,7 @@ const CalendarProvider: FunctionComponent<{ children: ReactNode }> = ({ children
         getTraining,
       }}
     >
-      {calendarList ? children : <Loading />}
+      {calendarList ? children : null}
     </CalendarProviderContext.Provider>
   )
 }

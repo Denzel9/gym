@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react'
-import { TODAY, TODAY_NUMBER, currentMonth, currentYear } from '../../../helpers/getDate'
+import { TODAY } from '../../../helpers/getDate'
 import { MdOutlineClose } from 'react-icons/md'
 import { useAddTrainingDay } from '../../../hooks/query-hooks/useCalendar'
 
@@ -13,18 +13,13 @@ const CalendarDay: FunctionComponent<{
   dayfilter: string
   monthFilter: number
   yearFilter: number
-}> = ({ dayTraining, date, setPlan, dayfilter, monthFilter, yearFilter }) => {
+  availableDay(): boolean | undefined
+}> = ({ dayTraining, date, setPlan, dayfilter, monthFilter, yearFilter, availableDay }) => {
   const [edit, setEdit] = useState(false)
   const [success, setSuccess] = useState(false)
   const [exercise, setExercise] = useState('')
   const [editExercise, setEditExercise] = useState(false)
   const [showPlanDay, setShowPlanDay] = useState(true)
-
-  const availableDay = () => {
-    if (yearFilter > currentYear) return true
-    if (monthFilter > currentMonth) return true
-    if (dayfilter >= TODAY_NUMBER) return true
-  }
 
   const { mutateCalendar } = useAddTrainingDay(
     `${dayfilter}.${String(monthFilter + 1).padStart(2, '0')}.${yearFilter}`,
@@ -48,7 +43,7 @@ const CalendarDay: FunctionComponent<{
   useEffect(() => {
     setTimeout(() => success && setSuccess(false), 1000)
   }, [success])
-  console.log(dayTraining)
+
   return (
     <div className=" relative">
       {success && (
@@ -87,7 +82,7 @@ const CalendarDay: FunctionComponent<{
       {showPlanDay &&
         dayTraining?.training?.map((el, i) => {
           const repeats = el.sets?.reduce((acc, cur) => (acc += cur.repeat), 0)
-          const weight = el.sets?.reduce((acc, cur) => (acc += cur.weight), 0)
+          const weight = el.sets?.reduce((acc, cur) => (acc += cur.weight * cur.repeat), 0)
           return (
             <div
               key={el.exercise}
@@ -124,6 +119,7 @@ const CalendarDay: FunctionComponent<{
       <div className=" relative">
         {editExercise && (
           <input
+            autoFocus
             className=" mt-5 w-full rounded-lg p-2 text-black"
             placeholder="Что будем делать?"
             value={exercise}

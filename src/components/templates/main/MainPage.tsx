@@ -1,39 +1,26 @@
 import { FunctionComponent, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { TODAY, TOMORROW } from '../../../helpers/getDate'
 import { UserProviderContext } from '../../../providers/UserProvider'
 import { useUser } from '@clerk/clerk-react'
 import Carusel from './carusel/Carusel'
 import { CalendarProviderContext } from '../../../providers/CalendarProvider'
 import { TrainingDayInterface } from '../../../types/calendar.interface'
+import { MdArrowRight, MdCalendarMonth } from 'react-icons/md'
 
 const MainPage: FunctionComponent = () => {
   const { user } = useUser()
-  const { name } = useContext(UserProviderContext)
-  const { calendar } = useContext(CalendarProviderContext)
+  const { name, userInfo } = useContext(UserProviderContext)
+  const { lastTraining, todayTraining, nextTraining } = useContext(CalendarProviderContext)
+  const navigate = useNavigate()
 
-  const sortCalendar = calendar?.sort((a, b) => +a?.date.slice(0, 2) - +b?.date.slice(0, 2))
-  const todayTrining = sortCalendar?.find((el) => el?.date === TODAY)
-  const nextTraining = sortCalendar?.find((el) => {
-    const traininDate = el.date.split('.')
-    const todayDate = TODAY.split('.')
+  const completeUserInfo =
+    userInfo &&
+    Object.entries(userInfo)
+      .flat()
+      .filter(Number)
+      .every((el) => !el)
 
-    if (
-      (el.training.length && traininDate[0] > todayDate[0]) ||
-      traininDate[1] > todayDate[1] ||
-      traininDate[2] > todayDate[2]
-    ) {
-      return el
-    }
-    return null
-  })
-
-  const lastTraining = sortCalendar?.find(
-    (el) =>
-      el.training.length &&
-      el.date.slice(0, 2) < TODAY.slice(0, 2) &&
-      el.date.slice(4, 6) === TODAY.slice(4, 6)
-  )
   const isTrainingDay = (
     todayTrining: TrainingDayInterface,
     nextTraining: TrainingDayInterface
@@ -42,36 +29,65 @@ const MainPage: FunctionComponent = () => {
     if (!todayTrining?.training?.length)
       return nextTraining?.date === TOMORROW ? 'Завтра' : nextTraining?.date
   }
+
   return (
     <main>
       <div className=" mt-5">
         <Carusel name={name} img={user?.imageUrl!} />
 
-        <div className="mt-5 w-full bg-white bg-opacity-40 p-2 rounded-lg relative h-16">
-          {todayTrining?.training.length ? (
+        <div className="mt-5 w-full bg-white bg-opacity-40 p-2 rounded-lg  h-16 relative">
+          <div className=" flex justify-between">
             <h2>Следующая тренировка:</h2>
-          ) : (
-            <h2>Следующая тренировка:</h2>
-          )}
-          <span>{isTrainingDay(todayTrining!, nextTraining!)}</span>
-
-          {!!todayTrining?.training.length && (
-            <Link to={'/training'} className=" bg-gold px-4 py-2 rounded-lg absolute right-5 mt-2">
+            <span className=" flex gap-2 items-center">
+              {isTrainingDay(todayTraining!, nextTraining!)}
+              <MdCalendarMonth className=" text-xl" />
+            </span>
+          </div>
+          {todayTraining?.training.length ? (
+            <Link to={'/training'} className=" bg-gold px-4 py-2 rounded-lg absolute left-5 mt-2">
               Начать
+            </Link>
+          ) : nextTraining?.training.length ? (
+            <button
+              onClick={() => navigate('/calendar', { state: { day: nextTraining.date } })}
+              className=" bg-gold px-4 py-2 rounded-lg absolute left-5 mt-2"
+            >
+              Посмотреть
+            </button>
+          ) : (
+            <Link to={'/calendar'} className=" bg-gold px-4 py-2 rounded-lg absolute left-5 mt-2">
+              Запланировать
             </Link>
           )}
         </div>
 
         {lastTraining?.training.length && (
-          <div className=" mt-5 w-full bg-white bg-opacity-40 p-2 rounded-lg">
+          <div className=" relative h-16 mt-8 w-full bg-white bg-opacity-40 p-2 rounded-lg">
             <div className=" flex justify-between">
               <h2>Предыдущая тренировка:</h2>
-              <span>{lastTraining?.date}</span>
+              <span className=" flex gap-2 items-center">
+                {lastTraining?.date}
+                <MdCalendarMonth className=" text-xl" />
+              </span>
             </div>
-            <Link to={'/training'}>Отчет</Link>
+            <Link
+              to={'/lasttraining'}
+              className=" bg-gold px-4 py-2 rounded-lg absolute left-5 mt-2"
+            >
+              Отчет
+            </Link>
           </div>
         )}
       </div>
+
+      {completeUserInfo && (
+        <div className=" mt-8 w-full bg-white bg-opacity-40 p-2 rounded-lg ">
+          <Link to={'/editProfile'} className="flex items-center">
+            <p>Запоните информацию о себе</p>
+            <MdArrowRight className=" text-3xl mt-1" />
+          </Link>
+        </div>
+      )}
     </main>
   )
 }

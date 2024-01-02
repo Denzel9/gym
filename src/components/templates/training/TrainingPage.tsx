@@ -28,7 +28,6 @@ const TrainingPage: FunctionComponent = () => {
   useEffect(() => {
     isBegining && handleScroll()
   }, [isBegining])
-  console.log(todayTraining)
 
   return (
     <section className=" h-full">

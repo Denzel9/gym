@@ -21,7 +21,9 @@ const MenuItem: FunctionComponent<{
       {IsSaveTraining && pathname === '/reportTraining' ? (
         <button onClick={() => setModal(true)}>{icon}</button>
       ) : (
-        <Link to={link}>{icon}</Link>
+        <Link className={classNames(pathname === link && ' text-gold')} to={link}>
+          {icon}
+        </Link>
       )}
     </div>
   )

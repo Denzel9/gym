@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect } from 'react'
 import classNames from 'classnames'
 import { TODAY_NUMBER, currentMonth } from '../../../helpers/getDate'
 import { TrainingDayInterface } from '../../../types/calendar.interface'
+import { CgGym } from 'react-icons/cg'
 
 const CalendarItem: FunctionComponent<{
   title: number
@@ -35,7 +36,6 @@ const CalendarItem: FunctionComponent<{
     setDayFilter(String(title).padStart(2, '0'))
     setSelectedDay(title)
   }
-
   return (
     <div
       className={classNames(
@@ -47,12 +47,12 @@ const CalendarItem: FunctionComponent<{
       onClick={handleSelectDay}
     >
       {isTrainingDay?.training && (
-        <div
+        <CgGym
           className={classNames(
             dayfilter === String(title).padStart(2, '0') && ' bg-white',
-            ' absolute right-0 top-0 bg-gold w-2 h-2 rounded-full z-10'
+            ' absolute left-0 -top-2 text-xl text-gold rounded-full z-10'
           )}
-        ></div>
+        />
       )}
       <span>{title}</span>
     </div>

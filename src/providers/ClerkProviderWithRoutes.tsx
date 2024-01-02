@@ -12,7 +12,7 @@ import Records from '../pages/Records'
 import UserProvider from './UserProvider'
 
 import CalendarProvider from './CalendarProvider'
-import Loading from '../pages/Loading'
+import EditProfile from '../pages/EditProfile'
 
 const ClerkProviderWithRoutes: FunctionComponent = () => {
   if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
@@ -31,7 +31,7 @@ const ClerkProviderWithRoutes: FunctionComponent = () => {
               <Route path="/main" element={<Main />} />
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/reportTraining" element={<ReportTraining />} />
-              <Route path="/loading" element={<Loading />} />
+              <Route path="/editProfile" element={<EditProfile />} />
 
               <Route
                 path="/training"
@@ -41,7 +41,7 @@ const ClerkProviderWithRoutes: FunctionComponent = () => {
                       <Training />
                     </SignedIn>
                     <SignedOut>
-                      <RedirectToSignIn redirectUrl={'/'} />
+                      <RedirectToSignIn redirectUrl={'/main'} />
                     </SignedOut>
                   </>
                 }
@@ -54,7 +54,7 @@ const ClerkProviderWithRoutes: FunctionComponent = () => {
                       <Profile />
                     </SignedIn>
                     <SignedOut>
-                      <RedirectToSignIn redirectUrl={'/'} />
+                      <RedirectToSignIn redirectUrl={'/main'} />
                     </SignedOut>
                   </>
                 }

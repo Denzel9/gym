@@ -3,7 +3,6 @@ import { UserIterface } from '../types/user.interface'
 
 import { useAuth } from '@clerk/clerk-react'
 
-import Loading from '../pages/Loading'
 import { useAddUser, useGetUsers } from '../hooks/query-hooks/useUser'
 import { useAddCalendar } from '../hooks/query-hooks/useCalendar'
 
@@ -29,7 +28,7 @@ const UserProvider: FunctionComponent<{ children: ReactNode }> = ({ children }) 
 
   return (
     <UserProviderContext.Provider value={currentUser}>
-      {currentUser ? children : <Loading />}
+      {currentUser ? children : null}
     </UserProviderContext.Provider>
   )
 }
